@@ -2,14 +2,17 @@ package com.example.todolistforprojects
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -19,25 +22,39 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavController
 import com.example.todolistforprojects.model.Task
 import com.example.todolistforprojects.ui.theme.ToDoListForProjectsTheme
+import com.google.gson.Gson
 
 @Composable
-fun toDoListScreen(tasks: List<Task>){
-    LazyColumn(modifier = Modifier.fillMaxSize().background(Color.White), verticalArrangement = Arrangement.Top, contentPadding = PaddingValues(5.dp))
-    {
-        items(tasks){
-            taskRow(task = it)
+fun toDoListScreen(tasks: List<Task>, navController: NavController){
+    Column(modifier = Modifier.fillMaxSize().background(Color.White), verticalArrangement = Arrangement.Center, horizontalAlignment = Alignment.CenterHorizontally) {
+        Spacer(modifier = Modifier.padding(10.dp))
+
+        Text(text = "To Do List", style = MaterialTheme.typography.displayMedium)
+
+
+        LazyRow(modifier = Modifier.fillMaxSize().background(Color.White), verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.Center, contentPadding = PaddingValues(5.dp)) {
+            items(tasks){
+                taskRow(task = it , navController = navController)
+            }
         }
     }
+
 
 }
 
 @Composable
-fun taskRow(task: Task){
-    Column(modifier = Modifier.fillMaxWidth().background(Color.White).padding(bottom = 15.dp)) {
-        Text(task.taskName, color = Color.Black, style = MaterialTheme.typography.displayMedium)
-        Text(task.taskDescription, color = Color.Red,style = MaterialTheme.typography.displaySmall)
+fun taskRow(task: Task, navController: NavController){
+    Column(verticalArrangement = Arrangement.Center, horizontalAlignment = Alignment.CenterHorizontally,modifier = Modifier.background(Color.White).padding(end = 5.dp).clickable{
+        navController.navigate("taskDetailScreen/${Gson().toJson(task)}")
+
+    }.fillMaxSize()) {
+        Text(task.taskName)
+        Text(task.taskDescription)
+        Text(task.taskDate)
+        Text(task.taskTime)
     }
 
 }
@@ -62,6 +79,6 @@ fun toDoListScreenPreview() {
 
 
 
-        toDoListScreen(tasks = taskList)
+        toDoListScreen(tasks = taskList, navController = NavController(context = MainActivity()))
     }
 }
