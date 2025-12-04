@@ -1,6 +1,7 @@
 package com.example.todolistforprojects.view
 
 import android.os.Bundle
+import android.widget.Toast
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
@@ -32,6 +33,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavController
 import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
@@ -39,12 +41,20 @@ import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
 import com.example.todolistforprojects.model.Task
 import com.example.todolistforprojects.ui.theme.ToDoListForProjectsTheme
+import com.example.todolistforprojects.viewmodel.TaskViewModel
+import com.google.firebase.Firebase
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.auth
+import com.google.firebase.firestore.firestore
 import com.google.gson.Gson
 
 
 class MainActivity : ComponentActivity() {
 
     private val taskList = ArrayList<Task>()
+    private lateinit var auth: FirebaseAuth
+    val db = Firebase.firestore
+
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -52,18 +62,28 @@ class MainActivity : ComponentActivity() {
         enableEdgeToEdge()
         setContent {
             val navController = rememberNavController()
+            auth = Firebase.auth
+
 
             ToDoListForProjectsTheme {
                 Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
                     Box(modifier = Modifier.padding(innerPadding)){
+                        val currentUser = auth.currentUser
 
-                        NavHost(navController = navController,startDestination = "toDoListScreen"){
+                        NavHost(navController = navController,startDestination = if (currentUser != null) "toDoListScreen" else "mainScreen"){
                             composable("mainScreen"){
-                                MainScreen()
+                                MainScreen(
+                                    onRegister = { email, password ->
+                                        registerUser(email, password)
+                                    },
+                                    onLogin = { email, password ->
+                                        loginUser(email, password, navController)
+                                    }
+                                )
                             }
                             composable("toDoListScreen"){
                                 taskOlustur()
-                                toDoListScreen(tasks = taskList, navController = navController)
+                                toDoListScreen(viewModel = TaskViewModel(), navController = navController)
                             }
                             composable("taskDetailScreen/{secilenTask}", arguments = listOf(navArgument("secilenTask"){
                                 type = NavType.StringType
@@ -74,6 +94,10 @@ class MainActivity : ComponentActivity() {
                                 val secilenTask = Gson(). fromJson(taskString, Task::class.java)
                                 taskDetailScreen(task = secilenTask)
                             }
+                            composable("addTask") {
+                                AddTaskScreen(navController)
+                            }
+
                         }
 
 
@@ -82,6 +106,36 @@ class MainActivity : ComponentActivity() {
             }
         }
     }
+
+    fun registerUser(email: String, password: String) {
+        auth.createUserWithEmailAndPassword(email, password)
+            .addOnCompleteListener(this) { task ->
+                if (task.isSuccessful) {
+                    val user = auth.currentUser
+                    Toast.makeText(this, "Kayıt başarılı!", Toast.LENGTH_SHORT).show()
+                } else {
+                    Toast.makeText(this, "Kayıt hata: ${task.exception?.localizedMessage}", Toast.LENGTH_LONG).show()
+                }
+            }
+    }
+
+    fun loginUser(email: String, password: String, navController: NavController) {
+        auth.signInWithEmailAndPassword(email, password)
+            .addOnCompleteListener(this) { task ->
+                if (task.isSuccessful) {
+                    Toast.makeText(this, "Giriş başarılı!", Toast.LENGTH_SHORT).show()
+                    navController.navigate("toDoListScreen") {
+                        popUpTo("mainScreen") { inclusive = true }
+                    }
+                } else {
+                    Toast.makeText(this, "Giriş hata: ${task.exception?.localizedMessage}", Toast.LENGTH_LONG).show()
+                }
+            }
+    }
+
+
+
+
 
     fun taskOlustur(){
 
@@ -103,30 +157,89 @@ class MainActivity : ComponentActivity() {
 
 
 @Composable
-fun MainScreen(){
+fun MainScreen(
+    onRegister: (String, String) -> Unit,
+    onLogin: (String, String) -> Unit
+) {
     val cornerShape = RoundedCornerShape(12.dp)
     var kullaniciMail = remember { mutableStateOf("") }
     var kullaniciSifre = remember { mutableStateOf("") }
 
-    Column(modifier = Modifier.fillMaxSize(), verticalArrangement = Arrangement.Top, horizontalAlignment = Alignment.CenterHorizontally) {
+    Column(
+        modifier = Modifier.fillMaxSize(),
+        verticalArrangement = Arrangement.Top,
+        horizontalAlignment = Alignment.CenterHorizontally
+    ) {
         Spacer(modifier = Modifier.padding(20.dp))
-        Text(style = MaterialTheme.typography.displayLarge,fontFamily = FontFamily.Monospace,text="Şirket İsmi", textAlign = TextAlign.Center, fontWeight = FontWeight.Bold, fontStyle = FontStyle.Italic)
+
+        Text(
+            text = "Şirket İsmi",
+            style = MaterialTheme.typography.displayLarge,
+            fontFamily = FontFamily.Monospace,
+            textAlign = TextAlign.Center,
+            fontWeight = FontWeight.Bold,
+            fontStyle = FontStyle.Italic
+        )
+
         Spacer(modifier = Modifier.padding(90.dp))
-        OutlinedTextField(modifier = Modifier.background(Color.Cyan, shape = cornerShape).border(5.dp, shape = cornerShape, color = Color.Black),value = kullaniciMail.value, onValueChange = {kullaniciMail.value = it}, placeholder = { Text(text = "Mailinizi Giriniz...", fontWeight = FontWeight.Bold, fontSize = 22.sp, fontStyle = FontStyle.Italic)}, shape = cornerShape)
+
+        OutlinedTextField(
+            modifier = Modifier
+                .background(Color.Cyan, shape = cornerShape)
+                .border(5.dp, shape = cornerShape, color = Color.Black),
+            value = kullaniciMail.value,
+            onValueChange = { kullaniciMail.value = it },
+            placeholder = {
+                Text(
+                    text = "Mailinizi Giriniz...",
+                    fontWeight = FontWeight.Bold,
+                    fontSize = 22.sp,
+                    fontStyle = FontStyle.Italic
+                )
+            },
+            shape = cornerShape
+        )
+
         Spacer(modifier = Modifier.padding(25.dp))
-        OutlinedTextField(modifier = Modifier.background(Color.Cyan, shape = cornerShape).border(5.dp, shape = cornerShape, color = Color.Black),value = kullaniciSifre.value, onValueChange = {kullaniciSifre.value = it}, placeholder = { Text(text = "Şifrenizi Giriniz...", fontWeight = FontWeight.Bold, fontSize = 22.sp, fontStyle = FontStyle.Italic)}, shape = cornerShape, visualTransformation = PasswordVisualTransformation())
+
+        OutlinedTextField(
+            modifier = Modifier
+                .background(Color.Cyan, shape = cornerShape)
+                .border(5.dp, shape = cornerShape, color = Color.Black),
+            value = kullaniciSifre.value,
+            onValueChange = { kullaniciSifre.value = it },
+            placeholder = {
+                Text(
+                    text = "Şifrenizi Giriniz...",
+                    fontWeight = FontWeight.Bold,
+                    fontSize = 22.sp,
+                    fontStyle = FontStyle.Italic
+                )
+            },
+            shape = cornerShape,
+            visualTransformation = PasswordVisualTransformation()
+        )
+
         Spacer(modifier = Modifier.padding(25.dp))
-        Button(onClick = { println(kullaniciMail.value + " " + kullaniciSifre.value) }) {
-            Text(text="Giriş Yap", fontSize = 18.sp)
-        }
-        Spacer(modifier = Modifier.padding(25.dp))
-        Button(onClick = { println(kullaniciMail.value + " " + kullaniciSifre.value) }) {
-            Text(text="Şirket hesabı oluştur", fontSize = 18.sp)
+
+        // 🔹 Giriş Yap BUTONU
+        Button(onClick = {
+            onLogin(kullaniciMail.value, kullaniciSifre.value)
+        }) {
+            Text(text = "Giriş Yap", fontSize = 18.sp)
         }
 
+        Spacer(modifier = Modifier.padding(25.dp))
+
+        // 🔹 Şirket hesabı oluştur BUTONU
+        Button(onClick = {
+            onRegister(kullaniciMail.value, kullaniciSifre.value)
+        }) {
+            Text(text = "Şirket hesabı oluştur", fontSize = 18.sp)
+        }
     }
-
 }
+
 
 
 
@@ -135,6 +248,9 @@ fun MainScreen(){
 @Composable
 fun GreetingPreview() {
     ToDoListForProjectsTheme {
-        MainScreen()
+        MainScreen(
+            onRegister = { email, password ->},
+            onLogin = { email, password ->}
+        )
     }
 }

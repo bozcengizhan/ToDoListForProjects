@@ -12,84 +12,140 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.BottomAppBar
+import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.NavigationBarItem
+import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
-import androidx.navigation.compose.rememberNavController
+import androidx.navigation.compose.currentBackStackEntryAsState
 import com.example.todolistforprojects.model.Task
 import com.example.todolistforprojects.ui.theme.ToDoListForProjectsTheme
+import com.example.todolistforprojects.viewmodel.TaskViewModel
 import com.google.gson.Gson
 
 @Composable
-fun toDoListScreen(tasks: List<Task>, navController: NavController){
-    val cornerShape = RoundedCornerShape(12.dp)
-    Column(modifier = Modifier.fillMaxSize().background(Color.White), verticalArrangement = Arrangement.Center, horizontalAlignment = Alignment.CenterHorizontally) {
+fun toDoListScreen(
+    navController: NavController,
+    viewModel: TaskViewModel = viewModel()
+)
+ {
 
-        Text(text = "To Do List", style = MaterialTheme.typography.displayMedium)
+    // ---- Buradaki kullanım doğru: StateFlow.collectAsState ile Compose uyumu
+    val tasks by viewModel.taskList.collectAsState()
 
-        Spacer(modifier = Modifier.padding(100.dp))
 
+     Scaffold(
+         bottomBar = {
+             BottomBar(
+                 onAddClick = {
+                     navController.navigate("addTask")
+                 },
+                 onSettingsClick = {
+                     // Ayarlar sayfası yoksa eklemene yardımcı olurum
+                 }
+             )
+         }
+     ) {paddingValues ->
 
-        LazyRow(modifier = Modifier.background(Color.Red).height(250.dp),verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.Center, contentPadding = PaddingValues(5.dp)) {
-            items(tasks){
-                taskRow(task = it , navController = navController)
+    Column(
+        modifier = Modifier
+            .fillMaxSize()
+            .background(Color.White),
+        verticalArrangement = Arrangement.Top,
+        horizontalAlignment = Alignment.CenterHorizontally
+    ) {
+
+        Spacer(modifier = Modifier.padding(25.dp))
+
+        Text(
+            text = "To Do List",
+            style = MaterialTheme.typography.displayMedium
+        )
+
+        Spacer(modifier = Modifier.padding(40.dp))
+
+        LazyRow(modifier = Modifier
+                .height(250.dp),
+            verticalAlignment = Alignment.CenterVertically,
+            horizontalArrangement = Arrangement.Center,
+            contentPadding = PaddingValues(5.dp)
+        ) {
+            // tasks bir List<Task> — items çalışacaktır
+            items(tasks) { task ->
+                TaskRow(task = task, navController = navController)
             }
         }
 
-        Spacer(modifier = Modifier.padding(100.dp))
+        Spacer(modifier = Modifier.padding(50.dp))
 
-        TextField(value = "deneme", onValueChange = {}, shape = cornerShape)
+        }
 
     }
-
-
 }
 
 @Composable
-fun taskRow(task: Task, navController: NavController){
-    Column(verticalArrangement = Arrangement.Center, horizontalAlignment = Alignment.CenterHorizontally,modifier = Modifier.background(Color.White).padding(end = 5.dp).clickable{
-        navController.navigate("taskDetailScreen/${Gson().toJson(task)}")
+fun BottomBar(onAddClick: () -> Unit, onSettingsClick: () -> Unit) {
+    androidx.compose.material3.NavigationBar {
+        NavigationBarItem(
+            selected = false,
+            onClick = { onAddClick() },
+            icon = { Text("➕") },
+            label = { Text("Ekle") }
+        )
 
-    }.fillMaxSize().padding(5.dp)) {
-        Text(task.taskName)
-        Spacer(modifier = Modifier.padding(1.dp))
-        Text(task.taskDescription)
-        Spacer(modifier = Modifier.padding(1.dp))
-        Text(task.taskDate)
-        Spacer(modifier = Modifier.padding(1.dp))
-        Text(task.taskTime)
+        NavigationBarItem(
+            selected = false,
+            onClick = { onSettingsClick() },
+            icon = { Text("⚙️") },
+            label = { Text("Ayarlar") }
+        )
     }
-
 }
 
-/*
+
+@Composable
+fun TaskRow(task: Task, navController: NavController) {
+    Column(
+        verticalArrangement = Arrangement.Center,
+        horizontalAlignment = Alignment.CenterHorizontally,
+        modifier = Modifier
+            .background(Color.White)
+            .padding(end = 5.dp)
+            .clickable {
+                navController.navigate("taskDetailScreen/${Gson().toJson(task)}")
+            }
+            .padding(5.dp)
+    ) {
+        // Model alan adlarına göre güncelle (senin modelin taskName vs ise onları kullan)
+        Text(task.name)
+        Spacer(modifier = Modifier.padding(1.dp))
+        Text(task.description)
+        Spacer(modifier = Modifier.padding(1.dp))
+        Text(task.date)
+        Spacer(modifier = Modifier.padding(1.dp))
+        Text(task.time)
+    }
+}
+
 @Preview(showBackground = true)
 @Composable
-fun toDoListScreenPreview() {
+fun toDoListPreview() {
     ToDoListForProjectsTheme {
-        val taskList = ArrayList<Task>()
-        val task1 = Task("1","İlk işimiz","ilk işimizi yapıyoruz","01.02.2024","12:00","Yapıldı")
-        val task2 = Task("2","İkinci işimiz","İkinci işimizi yapıyoruz","05.02.2023","13:00","Yapıldı")
-        val task3 = Task("3","Üçüncü işimiz","Üçüncü işimizi yapıyoruz","21.06.2021","14:00","Yapılmadı")
-        val task4 = Task("4","Dördüncü işimiz","Dördüncü işimizi yapıyoruz","02.12.2022","15:00","Yapıldı")
-        val task5 = Task("5","Beşinci işimiz","Beşinci işimizi yapıyoruz","11.01.2013","22:00","Yapıldı")
-
-        taskList.add(task1)
-        taskList.add(task2)
-        taskList.add(task3)
-        taskList.add(task4)
-        taskList.add(task5)
-
-
-
-        toDoListScreen(tasks = taskList, navController = rememberNavController())
+        toDoListScreen(navController = NavController(LocalContext.current), viewModel = TaskViewModel())
     }
 }
-*/

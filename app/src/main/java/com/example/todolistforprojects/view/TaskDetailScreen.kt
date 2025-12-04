@@ -20,11 +20,11 @@ fun taskDetailScreen(task: Task){
 
     Box(modifier = Modifier.fillMaxSize()){
         Column(modifier = Modifier.fillMaxSize().background(Color.White), verticalArrangement = Arrangement.Center, horizontalAlignment = Alignment.CenterHorizontally){
-            Text(task.taskName)
-            Text(task.taskDescription)
-            Text(task.taskDate)
-            Text(task.taskTime)
-            Text(task.taskStatus)
+            Text(task.name)
+            Text(task.description)
+            Text(task.date)
+            Text(task.time)
+            Text(task.status)
             Checkbox(checked = true, onCheckedChange = {})
         }
     }
