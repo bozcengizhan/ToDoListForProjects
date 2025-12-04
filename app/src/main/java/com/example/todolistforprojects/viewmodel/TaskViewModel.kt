@@ -44,7 +44,7 @@ class TaskViewModel : ViewModel() {
             name = name,
             description = description,
             totalDays = totalDays,
-            startDate = com.google.firebase.Timestamp.now()
+            startDate = null // artık Firestore server timestamp ile atanacak
         )
         repository.addTask(newTask)
     }

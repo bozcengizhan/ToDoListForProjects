@@ -30,7 +30,7 @@ fun AddTaskScreen(
 ) {
     var name by remember { mutableStateOf("") }
     var description by remember { mutableStateOf("") }
-    var duration by remember { mutableStateOf("") } // Gün sayısı
+    var totalDays by remember { mutableStateOf("") } // Gün sayısı
 
     Scaffold { innerPadding ->
         Column(
@@ -56,17 +56,23 @@ fun AddTaskScreen(
             )
 
             OutlinedTextField(
-                value = duration,
-                onValueChange = { duration = it },
+                value = totalDays,
+                onValueChange = { input ->
+                    // Sadece rakam girişine izin veriyoruz
+                    if (input.all { it.isDigit() }) totalDays = input
+                },
                 label = { Text("Süre (Gün)") },
                 modifier = Modifier.fillMaxWidth()
             )
 
             Button(
                 onClick = {
-                    val days = duration.toIntOrNull() ?: 0
-                    if (name.isNotEmpty() && days > 0) {
-                        viewModel.addTask(name, description, days)
+                    if (name.isNotBlank() && description.isNotBlank() && totalDays.isNotBlank()) {
+                        viewModel.addTask(
+                            name = name,
+                            description = description,
+                            totalDays = totalDays.toInt()
+                        )
                         navController.popBackStack()
                     }
                 },

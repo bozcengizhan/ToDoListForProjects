@@ -10,8 +10,19 @@ class TaskRepository {
     fun addTask(task: Task) {
         val newDoc = db.collection("tasks").document()
         val taskWithId = task.copy(id = newDoc.id)
-        newDoc.set(taskWithId)
+
+        // startDate'i Firebase server timestamp ile ayarlıyoruz
+        val taskMap = hashMapOf(
+            "id" to taskWithId.id,
+            "name" to taskWithId.name,
+            "description" to taskWithId.description,
+            "totalDays" to taskWithId.totalDays,
+            "startDate" to com.google.firebase.firestore.FieldValue.serverTimestamp()
+        )
+
+        newDoc.set(taskMap)
     }
+
 
     fun getTasksRealTime(onDataChanged: (List<Task>) -> Unit) {
         db.collection("tasks")

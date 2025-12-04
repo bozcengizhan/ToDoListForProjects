@@ -9,6 +9,7 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -28,6 +29,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
@@ -129,13 +132,11 @@ fun TaskRow(task: Task, navController: NavController) {
             .clickable {
                 navController.navigate("taskDetailScreen/${Gson().toJson(task)}")
             }
-            .padding(5.dp)
+            .padding(5.dp).width(150.dp)
     ) {
-        Text(task.name)
+        Text(task.name, textAlign = TextAlign.Center, style = MaterialTheme.typography.headlineSmall)
         Spacer(modifier = Modifier.height(4.dp))
-        Text(task.description)
-        Spacer(modifier = Modifier.height(4.dp))
-        Text("Kalan Gün: ${task.totalDays}", color = if (task.totalDays == 0) Color.Red else Color.Black)
+        Text("Kalan Gün: ${task.totalDays}", color = if (task.totalDays == 0) Color.Red else Color.Green, textAlign = TextAlign.Center, fontWeight = FontWeight.ExtraBold)
     }
 }
 
