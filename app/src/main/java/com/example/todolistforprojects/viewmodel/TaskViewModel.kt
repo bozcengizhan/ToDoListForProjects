@@ -48,4 +48,16 @@ class TaskViewModel : ViewModel() {
         )
         repository.addTask(newTask)
     }
+
+    fun deleteTask(task: Task, onComplete: (Boolean) -> Unit = {}) {
+        repository.deleteTask(task) { success ->
+            if (success) {
+                // Eğer istersen local StateFlow listesini de güncelleyebilirsin
+                _taskList.value = _taskList.value.filter { it.id != task.id }
+            }
+            onComplete(success)
+        }
+    }
+
+
 }

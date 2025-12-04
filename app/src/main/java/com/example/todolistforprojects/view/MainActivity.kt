@@ -91,7 +91,7 @@ class MainActivity : ComponentActivity() {
                                     it.arguments?.getString("secilenTask")
                                 }
                                 val secilenTask = Gson(). fromJson(taskString, Task::class.java)
-                                taskDetailScreen(task = secilenTask)
+                                taskDetailScreen(navController = navController,task = secilenTask)
                             }
                             composable("addTask") {
                                 AddTaskScreen(navController)

@@ -4,7 +4,11 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
+import androidx.compose.material3.Button
 import androidx.compose.material3.Checkbox
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -12,11 +16,19 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.dp
+import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.navigation.NavController
 import com.example.todolistforprojects.model.Task
 import com.example.todolistforprojects.ui.theme.ToDoListForProjectsTheme
+import com.example.todolistforprojects.viewmodel.TaskViewModel
 
 @Composable
-fun taskDetailScreen(task: Task){
+fun taskDetailScreen(
+    task: Task,
+    viewModel: TaskViewModel = viewModel(),
+    navController: NavController
+){
     Box(modifier = Modifier.fillMaxSize()){
         Column(
             modifier = Modifier
@@ -28,9 +40,22 @@ fun taskDetailScreen(task: Task){
             Text(task.name)
             Text(task.description)
             Text("Kalan Gün: ${task.totalDays}")
+
+            Spacer(modifier = Modifier.height(20.dp))
+
+            Button(
+                onClick = {
+                    viewModel.deleteTask(task)
+                    navController.popBackStack() // silince liste ekranına dön
+                },
+                modifier = Modifier.padding(16.dp)
+            ) {
+                Text("Görevi Sil")
+            }
         }
     }
 }
+
 
 
 
