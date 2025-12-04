@@ -82,7 +82,6 @@ class MainActivity : ComponentActivity() {
                                 )
                             }
                             composable("toDoListScreen"){
-                                taskOlustur()
                                 toDoListScreen(viewModel = TaskViewModel(), navController = navController)
                             }
                             composable("taskDetailScreen/{secilenTask}", arguments = listOf(navArgument("secilenTask"){
@@ -137,22 +136,6 @@ class MainActivity : ComponentActivity() {
 
 
 
-    fun taskOlustur(){
-
-        val task1 = Task("1","İlk işimiz","ilk işimizi yapıyoruz","01.02.2024","12:00","Yapıldı")
-        val task2 = Task("2","İkinci işimiz","İkinci işimizi yapıyoruz","05.02.2023","13:00","Yapıldı")
-        val task3 = Task("3","Üçüncü işimiz","Üçüncü işimizi yapıyoruz","21.06.2021","14:00","Yapılmadı")
-        val task4 = Task("4","Dördüncü işimiz","Dördüncü işimizi yapıyoruz","02.12.2022","15:00","Yapıldı")
-        val task5 = Task("5","Beşinci işimiz","Beşinci işimizi yapıyoruz","11.01.2013","22:00","Yapıldı")
-
-        taskList.add(task1)
-        taskList.add(task2)
-        taskList.add(task3)
-        taskList.add(task4)
-        taskList.add(task5)
-
-
-    }
 }
 
 

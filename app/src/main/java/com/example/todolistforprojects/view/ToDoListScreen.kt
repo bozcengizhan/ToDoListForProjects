@@ -43,55 +43,55 @@ fun toDoListScreen(
     navController: NavController,
     viewModel: TaskViewModel = viewModel()
 )
- {
+{
 
     // ---- Buradaki kullanım doğru: StateFlow.collectAsState ile Compose uyumu
     val tasks by viewModel.taskList.collectAsState()
 
 
-     Scaffold(
-         bottomBar = {
-             BottomBar(
-                 onAddClick = {
-                     navController.navigate("addTask")
-                 },
-                 onSettingsClick = {
-                     // Ayarlar sayfası yoksa eklemene yardımcı olurum
-                 }
-             )
-         }
-     ) {paddingValues ->
-
-    Column(
-        modifier = Modifier
-            .fillMaxSize()
-            .background(Color.White),
-        verticalArrangement = Arrangement.Top,
-        horizontalAlignment = Alignment.CenterHorizontally
-    ) {
-
-        Spacer(modifier = Modifier.padding(25.dp))
-
-        Text(
-            text = "To Do List",
-            style = MaterialTheme.typography.displayMedium
-        )
-
-        Spacer(modifier = Modifier.padding(40.dp))
-
-        LazyRow(modifier = Modifier
-                .height(250.dp),
-            verticalAlignment = Alignment.CenterVertically,
-            horizontalArrangement = Arrangement.Center,
-            contentPadding = PaddingValues(5.dp)
-        ) {
-            // tasks bir List<Task> — items çalışacaktır
-            items(tasks) { task ->
-                TaskRow(task = task, navController = navController)
-            }
+    Scaffold(
+        bottomBar = {
+            BottomBar(
+                onAddClick = {
+                    navController.navigate("addTask")
+                },
+                onSettingsClick = {
+                    // Ayarlar sayfası yoksa eklemene yardımcı olurum
+                }
+            )
         }
+    ) {paddingValues ->
 
-        Spacer(modifier = Modifier.padding(50.dp))
+        Column(
+            modifier = Modifier
+                .fillMaxSize()
+                .background(Color.White),
+            verticalArrangement = Arrangement.Top,
+            horizontalAlignment = Alignment.CenterHorizontally
+        ) {
+
+            Spacer(modifier = Modifier.padding(25.dp))
+
+            Text(
+                text = "To Do List",
+                style = MaterialTheme.typography.displayMedium
+            )
+
+            Spacer(modifier = Modifier.padding(40.dp))
+
+            LazyRow(modifier = Modifier
+                .height(250.dp),
+                verticalAlignment = Alignment.CenterVertically,
+                horizontalArrangement = Arrangement.Center,
+                contentPadding = PaddingValues(5.dp)
+            ) {
+                // tasks bir List<Task> — items çalışacaktır
+                items(tasks) { task ->
+                    TaskRow(task = task, navController = navController)
+                }
+            }
+
+            Spacer(modifier = Modifier.padding(50.dp))
 
         }
 
@@ -131,16 +131,14 @@ fun TaskRow(task: Task, navController: NavController) {
             }
             .padding(5.dp)
     ) {
-        // Model alan adlarına göre güncelle (senin modelin taskName vs ise onları kullan)
         Text(task.name)
-        Spacer(modifier = Modifier.padding(1.dp))
+        Spacer(modifier = Modifier.height(4.dp))
         Text(task.description)
-        Spacer(modifier = Modifier.padding(1.dp))
-        Text(task.date)
-        Spacer(modifier = Modifier.padding(1.dp))
-        Text(task.time)
+        Spacer(modifier = Modifier.height(4.dp))
+        Text("Kalan Gün: ${task.totalDays}", color = if (task.totalDays == 0) Color.Red else Color.Black)
     }
 }
+
 
 @Preview(showBackground = true)
 @Composable

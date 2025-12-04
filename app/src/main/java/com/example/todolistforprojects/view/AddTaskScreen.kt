@@ -30,10 +30,7 @@ fun AddTaskScreen(
 ) {
     var name by remember { mutableStateOf("") }
     var description by remember { mutableStateOf("") }
-    var date by remember { mutableStateOf("") }
-    var time by remember { mutableStateOf("") }
-    var duration by remember { mutableStateOf("") }
-
+    var duration by remember { mutableStateOf("") } // Gün sayısı
 
     Scaffold { innerPadding ->
         Column(
@@ -65,29 +62,13 @@ fun AddTaskScreen(
                 modifier = Modifier.fillMaxWidth()
             )
 
-            OutlinedTextField(
-                value = date,
-                onValueChange = { date = it },
-                label = { Text("Tarih (örn: 2025-12-04)") },
-                modifier = Modifier.fillMaxWidth()
-            )
-
-            OutlinedTextField(
-                value = time,
-                onValueChange = { time = it },
-                label = { Text("Saat (örn: 14:30)") },
-                modifier = Modifier.fillMaxWidth()
-            )
-
             Button(
                 onClick = {
-                    viewModel.addTask(
-                        name = name,
-                        description = description,
-                        date = date,
-                        time = time
-                    )
-                    navController.popBackStack()
+                    val days = duration.toIntOrNull() ?: 0
+                    if (name.isNotEmpty() && days > 0) {
+                        viewModel.addTask(name, description, days)
+                        navController.popBackStack()
+                    }
                 },
                 modifier = Modifier.fillMaxWidth()
             ) {
@@ -96,6 +77,7 @@ fun AddTaskScreen(
         }
     }
 }
+
 
 @Preview(showBackground = true)
 @Composable

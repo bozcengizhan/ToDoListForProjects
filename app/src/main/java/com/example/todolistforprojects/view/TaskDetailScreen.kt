@@ -17,24 +17,24 @@ import com.example.todolistforprojects.ui.theme.ToDoListForProjectsTheme
 
 @Composable
 fun taskDetailScreen(task: Task){
-
     Box(modifier = Modifier.fillMaxSize()){
-        Column(modifier = Modifier.fillMaxSize().background(Color.White), verticalArrangement = Arrangement.Center, horizontalAlignment = Alignment.CenterHorizontally){
+        Column(
+            modifier = Modifier
+                .fillMaxSize()
+                .background(Color.White),
+            verticalArrangement = Arrangement.Center,
+            horizontalAlignment = Alignment.CenterHorizontally
+        ){
             Text(task.name)
             Text(task.description)
-            Text(task.date)
-            Text(task.time)
-            Text(task.status)
-            Checkbox(checked = true, onCheckedChange = {})
+            Text("Kalan Gün: ${task.totalDays}")
         }
     }
-
-
-
 }
 
 
 
+/*
 
 @Preview(showBackground = true)
 @Composable
@@ -50,3 +50,5 @@ fun taskDetailScreenPreview() {
         taskDetailScreen(task = task1)
     }
 }
+
+ */
