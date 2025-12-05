@@ -49,6 +49,16 @@ class TaskRepository {
                 }
             }
     }
+
+    fun getFailedTasksRealTime(onDataChanged: (List<Task>) -> Unit) {
+        db.collection("failedTasks")
+            .addSnapshotListener { snapshot, _ ->
+                if (snapshot != null) {
+                    val tasks = snapshot.toObjects(Task::class.java)
+                    onDataChanged(tasks)
+                }
+            }
+    }
     fun failTask(task: Task, onComplete: (Boolean) -> Unit = {}) {
         val failedRef = db.collection("failedTasks").document(task.id)
         val expireDate = com.google.firebase.Timestamp.now() // şimdi
@@ -110,13 +120,25 @@ class TaskRepository {
             }
     }
 
-    fun deleteTask(task: Task, onComplete: (Boolean) -> Unit) {
+    fun deleteCompletedTask(task: Task, onComplete: (Boolean) -> Unit) {
         if (task.id.isEmpty()) {
             onComplete(false)
             return
         }
 
         db.collection("completed_tasks").document(task.id)
+            .delete()
+            .addOnSuccessListener { onComplete(true) }
+            .addOnFailureListener { onComplete(false) }
+    }
+
+    fun deleteFailedTask(task: Task, onComplete: (Boolean) -> Unit) {
+        if (task.id.isEmpty()) {
+            onComplete(false)
+            return
+        }
+
+        db.collection("failedTasks").document(task.id)
             .delete()
             .addOnSuccessListener { onComplete(true) }
             .addOnFailureListener { onComplete(false) }

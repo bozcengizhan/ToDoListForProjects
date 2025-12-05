@@ -21,46 +21,49 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import com.example.todolistforprojects.model.Task
+import com.example.todolistforprojects.ui.theme.ToDoListForProjectsTheme
 import com.example.todolistforprojects.viewmodel.TaskViewModel
 import com.google.gson.Gson
 
 @Composable
-fun CompletedTasksScreen(
+fun failedTaskScreen(
     navController: NavController,
     viewModel: TaskViewModel = viewModel()
-) {
-    val completedTasks by viewModel.completedTasks.collectAsState()
+){
+    val failedTasks by viewModel.failedTasks.collectAsState()
 
     // Ekran açılır açılmaz verileri çek
     LaunchedEffect(true) {
-        viewModel.fetchCompletedTasks()
+        viewModel.fetchFailedTasks()
     }
 
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .background(Color(0xFF55D555))
+            .background(Color(0xFFF85D5D))
             .padding(16.dp),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
 
         Text(
-            text = "Tamamlanan Görevler",
+            text = "Başarısız Görevler",
             style = MaterialTheme.typography.headlineMedium,
             fontWeight = FontWeight.Bold
         )
 
         Spacer(modifier = Modifier.height(20.dp))
 
-        if (completedTasks.isEmpty()) {
+        if (failedTasks.isEmpty()) {
             Text(
-                text = "Tamamlanan görev bulunmuyor.",
+                text = "Başarısız görev bulunmuyor.",
                 color = Color.Gray,
                 style = MaterialTheme.typography.bodyLarge,
                 textAlign = TextAlign.Center
@@ -72,12 +75,12 @@ fun CompletedTasksScreen(
                 modifier = Modifier.fillMaxSize()
             ) {
 
-                items(completedTasks) { task ->
+                items(failedTasks) { task ->
 
-                    CompletedTaskItem(
+                    FailedTaskItem (
                         task = task,
                         onClick = {
-                            navController.navigate("completedTaskDetailScreen/${Gson().toJson(task)}")
+                            navController.navigate("failedTaskDetailScreen/${Gson().toJson(task)}")
                         }
                     )
                 }
@@ -85,12 +88,16 @@ fun CompletedTasksScreen(
         }
     }
 }
+
+
+
+
 @Composable
-fun CompletedTaskItem(task: Task, onClick: () -> Unit) {
+fun FailedTaskItem(task: Task, onClick: () -> Unit) {
     Column(
         modifier = Modifier
             .fillMaxWidth()
-            .background(Color(0xFFE7FFE7), RoundedCornerShape(12.dp))
+            .background(Color(0xFFFCC2C2), RoundedCornerShape(12.dp))
             .padding(16.dp)
             .clickable { onClick() }
     ) {
@@ -119,10 +126,12 @@ fun CompletedTaskItem(task: Task, onClick: () -> Unit) {
         Spacer(modifier = Modifier.height(4.dp))
 
         Text(
-            text = "Durum: Tamamlandı ✔",
-            color = Color(0xFF00E010),
+            text = "Durum: Başarısız ✘",
+            color = Color(0xFFF83C59),
             fontWeight = FontWeight.Bold
         )
     }
 }
+
+
 

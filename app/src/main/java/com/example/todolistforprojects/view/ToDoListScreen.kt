@@ -1,32 +1,52 @@
 package com.example.todolistforprojects.view
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Add
+import androidx.compose.material.icons.filled.AddCircle
+import androidx.compose.material.icons.filled.Check
+import androidx.compose.material.icons.filled.Close
 import androidx.compose.material3.BottomAppBar
+import androidx.compose.material3.Divider
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.NavigationBar
 import androidx.compose.material3.NavigationBarItem
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
+import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
+import androidx.compose.ui.draw.shadow
+import androidx.compose.ui.geometry.Offset
+import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
@@ -41,6 +61,7 @@ import com.example.todolistforprojects.model.Task
 import com.example.todolistforprojects.ui.theme.ToDoListForProjectsTheme
 import com.example.todolistforprojects.viewmodel.TaskViewModel
 import com.google.gson.Gson
+import org.w3c.dom.Text
 
 @Composable
 fun toDoListScreen(
@@ -54,13 +75,16 @@ fun toDoListScreen(
 
 
     Scaffold(
+        topBar = {
+            ModernTopBar(title = "To Do List")
+        },
         bottomBar = {
             BottomBar(
                 onAddClick = {
                     navController.navigate("addTask")
                 },
-                onSettingsClick = {
-                    // Ayarlar sayfası yoksa eklemene yardımcı olurum
+                onFailsClick = {
+                    navController.navigate("failedTasks")
                 },
                 onFinishedClick = {
                     navController.navigate("completedTasks")
@@ -72,19 +96,11 @@ fun toDoListScreen(
         Column(
             modifier = Modifier
                 .fillMaxSize()
-                .background(Color.White),
+                .background(Color(0xFFFFE9C6)),
             verticalArrangement = Arrangement.Top,
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
-
-            Spacer(modifier = Modifier.padding(25.dp))
-
-            Text(
-                text = "To Do List",
-                style = MaterialTheme.typography.displayMedium
-            )
-
-            Spacer(modifier = Modifier.padding(40.dp))
+            Spacer(modifier = Modifier.weight(1f))
 
             LazyRow(modifier = Modifier
                 .height(250.dp),
@@ -98,34 +114,108 @@ fun toDoListScreen(
                 }
             }
 
-            Spacer(modifier = Modifier.padding(50.dp))
+            Spacer(modifier = Modifier.weight(1f))
 
         }
 
     }
 }
+@Composable
+fun BottomBar(
+    onAddClick: () -> Unit,
+    onFailsClick: () -> Unit,
+    onFinishedClick: () -> Unit
+) {
+
+    Box(
+        modifier = Modifier
+            .fillMaxWidth()
+            .height(70.dp)
+            .background(
+                brush = Brush.linearGradient(
+                    colors = listOf(
+                        Color(0xFFFC6495),
+                        Color(0xFFFC6495)
+                    )
+                ),
+                shape = RoundedCornerShape(topStart = 50.dp,topEnd = 50.dp)
+            )
+
+    ) {
+
+        // Üste çok hafif vertical karartma koy — banding tamamen yok olur
+        Box(
+            modifier = Modifier
+                .matchParentSize()
+        )
+
+        Row(
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(horizontal = 24.dp),
+            verticalAlignment = Alignment.CenterVertically,
+            horizontalArrangement = Arrangement.SpaceBetween
+        ) {
+
+            BottomBarButton(
+                title = "Completed",
+                icon = Icons.Default.Check,
+                onClick = onFinishedClick
+            )
+
+            Box(
+                modifier = Modifier
+                    .height(40.dp)
+                    .width(1.dp)
+                    .background(Color.White.copy(alpha = 0.3f))
+            )
+
+            BottomBarButton(
+                title = "Add",
+                icon = Icons.Default.Add,
+                onClick = onAddClick
+            )
+
+            Box(
+                modifier = Modifier
+                    .height(40.dp)
+                    .width(1.dp)
+                    .background(Color.White.copy(alpha = 0.3f))
+            )
+
+            BottomBarButton(
+                title = "Fails",
+                icon = Icons.Default.Close,
+                onClick = onFailsClick
+            )
+        }
+    }
+}
 
 @Composable
-fun BottomBar(onAddClick: () -> Unit, onSettingsClick: () -> Unit, onFinishedClick: () -> Unit) {
-    androidx.compose.material3.NavigationBar {
-        NavigationBarItem(
-            selected = false,
-            onClick = { onFinishedClick() },
-            icon = { Text("✔") },
-            label = { Text("Bitenler") }
+fun BottomBarButton(
+    title: String,
+    icon: ImageVector,
+    onClick: () -> Unit
+) {
+    Column(
+        modifier = Modifier
+            .clickable { onClick() }
+            .padding(horizontal = 10.dp),
+        horizontalAlignment = Alignment.CenterHorizontally
+    ) {
+        Icon(
+            imageVector = icon,
+            contentDescription = title,
+            tint = Color.White,
+            modifier = Modifier.size(22.dp)
         )
-        NavigationBarItem(
-            selected = false,
-            onClick = { onAddClick() },
-            icon = { Text("➕") },
-            label = { Text("Ekle") }
-        )
-
-        NavigationBarItem(
-            selected = false,
-            onClick = { onSettingsClick() },
-            icon = { Text("⚙️") },
-            label = { Text("Ayarlar") }
+        Spacer(modifier = Modifier.height(4.dp))
+        Text(
+            text = title,
+            color = Color.White,
+            fontSize = 13.sp,
+            fontWeight = FontWeight.Medium
         )
     }
 }
@@ -137,21 +227,54 @@ fun TaskRow(task: Task, navController: NavController) {
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally,
         modifier = Modifier
-            .background(Color.White)
-            .padding(end = 5.dp)
+            .background(Color(0xFFEFC0BE)).border(2.dp, Color.Black)
+            .padding(5.dp)
             .clickable {
                 navController.navigate("taskDetailScreen/${Gson().toJson(task)}")
             }
-            .padding(5.dp).width(150.dp)
+            .width(150.dp)
     ) {
         Text(task.name, textAlign = TextAlign.Center, style = MaterialTheme.typography.headlineSmall)
         Spacer(modifier = Modifier.height(10.dp))
         Text("Kalan Gün: ${task.totalDays}", color = if (task.totalDays == 0) Color.Red else Color.Green, textAlign = TextAlign.Center, fontWeight = FontWeight.ExtraBold)
         Spacer(modifier = Modifier.height(10.dp))
-        Text("Ekleyen: ${task.creatorEmail}")
+        Text( "${task.creatorEmail}", textAlign = TextAlign.Center, fontWeight = FontWeight.ExtraBold)
 
     }
 }
+
+@Composable
+fun ModernTopBar(title: String) {
+    Box(
+        modifier = Modifier
+            .fillMaxWidth()
+            .height(70.dp)
+            .padding(horizontal = 10.dp, vertical = 8.dp)
+            .shadow(12.dp, RoundedCornerShape(30.dp))  // gölge + yuvarlak köşe
+            .background(
+                brush = Brush.horizontalGradient(
+                    colors = listOf(
+                        Color(0xFFFCB34B),
+                        Color(0xFFFF9900)
+                    )
+                ),
+                shape = RoundedCornerShape(40.dp)
+            ),
+        contentAlignment = Alignment.Center
+    ) {
+        Text(
+            text = title,
+            color = Color.White,
+            style = MaterialTheme.typography.headlineMedium.copy(
+                fontWeight = FontWeight.Bold,
+                fontSize = MaterialTheme.typography.headlineMedium.fontSize * 1.5f // %20 daha büyük
+            )
+        )
+    }
+}
+
+
+
 
 
 @Preview(showBackground = true)
@@ -193,7 +316,7 @@ fun toDoListFakePreview() {
                 bottomBar = {
                     BottomBar(
                         onAddClick = {},
-                        onSettingsClick = {},
+                        onFailsClick = {},
                         onFinishedClick = {}
                     )
                 }
@@ -207,14 +330,14 @@ fun toDoListFakePreview() {
                     horizontalAlignment = Alignment.CenterHorizontally
                 ) {
 
-                    Spacer(modifier = Modifier.padding(25.dp))
+                    Spacer(modifier = Modifier.weight(0.25f))
 
                     Text(
                         text = "To Do List",
                         style = MaterialTheme.typography.displayMedium
                     )
 
-                    Spacer(modifier = Modifier.padding(40.dp))
+                    Spacer(modifier = Modifier.weight(1f))
 
                     LazyRow(
                         modifier = Modifier.height(250.dp),
@@ -227,7 +350,7 @@ fun toDoListFakePreview() {
                         }
                     }
 
-                    Spacer(modifier = Modifier.padding(50.dp))
+                    Spacer(modifier = Modifier.weight(1.5f))
                 }
             }
         }

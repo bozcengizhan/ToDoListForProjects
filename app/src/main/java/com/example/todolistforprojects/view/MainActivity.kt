@@ -109,6 +109,19 @@ class MainActivity : ComponentActivity() {
                                 val secilenTask = Gson(). fromJson(taskString, Task::class.java)
                                 completedTaskDetailScreen(navController = navController,task = secilenTask)
                             }
+                            composable("failedTasks") {
+                                failedTaskScreen(navController)
+                            }
+                            composable("failedTaskDetailScreen/{secilenTask}", arguments = listOf(navArgument("secilenTask") {
+                                type = NavType.StringType
+                            })) {
+                                val taskString = remember {
+                                    it.arguments?.getString("secilenTask")
+                                }
+                                val secilenTask = Gson().fromJson(taskString, Task::class.java)
+                                failedTaskDetailScreen(navController = navController, task = secilenTask)
+                            }
+
 
 
                         }

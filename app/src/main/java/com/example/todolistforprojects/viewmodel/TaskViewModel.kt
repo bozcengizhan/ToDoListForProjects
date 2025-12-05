@@ -32,6 +32,12 @@ class TaskViewModel : ViewModel() {
         }
     }
 
+    fun fetchFailedTasks() {
+        repository.getFailedTasksRealTime { list ->
+            _failedTasks.value = list
+        }
+    }
+
     fun fetchTasks() {
         repository.getTasksRealTime { taskListFromDb ->
 
@@ -61,9 +67,6 @@ class TaskViewModel : ViewModel() {
         }
     }
 
-
-
-
     private fun calculateRemainingDays(task: Task): Int {
         val start = task.startDate?.toDate() ?: return task.totalDays
         val today = java.util.Date()
@@ -85,8 +88,18 @@ class TaskViewModel : ViewModel() {
     }
 
 
-    fun deleteTask(task: Task, onComplete: (Boolean) -> Unit = {}) {
-        repository.deleteTask(task) { success ->
+    fun deleteCompletedTask(task: Task, onComplete: (Boolean) -> Unit = {}) {
+        repository.deleteCompletedTask(task) { success ->
+            if (success) {
+                // Eğer istersen local StateFlow listesini de güncelleyebilirsin
+                _taskList.value = _taskList.value.filter { it.id != task.id }
+            }
+            onComplete(success)
+        }
+    }
+
+    fun deleteFailedTask(task: Task, onComplete: (Boolean) -> Unit = {}) {
+        repository.deleteFailedTask(task) { success ->
             if (success) {
                 // Eğer istersen local StateFlow listesini de güncelleyebilirsin
                 _taskList.value = _taskList.value.filter { it.id != task.id }
