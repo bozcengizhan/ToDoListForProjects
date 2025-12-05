@@ -12,6 +12,9 @@ class TaskRepository {
     fun markTaskCompleted(task: Task, onComplete: (Boolean) -> Unit) {
 
         val completedRef = db.collection("completed_tasks").document(task.id)
+        val expireDate = com.google.firebase.Timestamp.now() // şimdi
+            .toDate()
+            .apply { time += 7L * 24 * 60 * 60 * 1000 } // +7 gün
 
         val completedTaskMap = hashMapOf(
             "id" to task.id,
@@ -20,7 +23,8 @@ class TaskRepository {
             "totalDays" to task.totalDays,
             "startDate" to task.startDate,
             "creatorEmail" to task.creatorEmail,
-            "status" to "completed"
+            "status" to "completed",
+            "expireAt" to com.google.firebase.Timestamp(expireDate)
         )
 
         // önce completed listesine ekle
@@ -45,6 +49,35 @@ class TaskRepository {
                 }
             }
     }
+    fun failTask(task: Task, onComplete: (Boolean) -> Unit = {}) {
+        val failedRef = db.collection("failedTasks").document(task.id)
+        val expireDate = com.google.firebase.Timestamp.now() // şimdi
+            .toDate()
+            .apply { time += 7L * 24 * 60 * 60 * 1000 } // +7 gün
+
+        val taskMap = hashMapOf(
+            "id" to task.id,
+            "name" to task.name,
+            "description" to task.description,
+            "totalDays" to 0,
+            "startDate" to task.startDate,
+            "creatorEmail" to task.creatorEmail,
+            "status" to "failed",
+            "expireAt" to com.google.firebase.Timestamp(expireDate)
+        )
+
+        failedRef.set(taskMap)
+            .addOnSuccessListener {
+                // Orijinal koleksiyondan sil
+                db.collection("tasks").document(task.id)
+                    .delete()
+                    .addOnSuccessListener { onComplete(true) }
+                    .addOnFailureListener { onComplete(false) }
+            }
+            .addOnFailureListener { onComplete(false) }
+    }
+
+
 
 
 
@@ -83,7 +116,7 @@ class TaskRepository {
             return
         }
 
-        db.collection("tasks").document(task.id)
+        db.collection("completed_tasks").document(task.id)
             .delete()
             .addOnSuccessListener { onComplete(true) }
             .addOnFailureListener { onComplete(false) }

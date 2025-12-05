@@ -23,6 +23,9 @@ class TaskViewModel : ViewModel() {
     private val _completedTasks = MutableStateFlow<List<Task>>(emptyList())
     val completedTasks: StateFlow<List<Task>> get() = _completedTasks
 
+    private val _failedTasks = MutableStateFlow<List<Task>>(emptyList())
+    val failedTasks: StateFlow<List<Task>> get() = _failedTasks
+
     fun fetchCompletedTasks() {
         repository.getCompletedTasksRealTime { list ->
             _completedTasks.value = list
@@ -31,13 +34,35 @@ class TaskViewModel : ViewModel() {
 
     fun fetchTasks() {
         repository.getTasksRealTime { taskListFromDb ->
-            val updatedTasks = taskListFromDb.map { task ->
-                val remainingDays = calculateRemainingDays(task)
-                task.copy(totalDays = remainingDays)
+
+            val activeTasks = mutableListOf<Task>()
+            val failedTasks = mutableListOf<Task>()
+
+            taskListFromDb.forEach { task ->
+                val remaining = calculateRemainingDays(task)
+
+                if (remaining <= 0) {
+                    failTask(task)  // 🔥 burada sorun çözülmüş olacak
+                    failedTasks.add(task.copy(totalDays = 0))
+                } else {
+                    activeTasks.add(task.copy(totalDays = remaining))
+                }
             }
-            _taskList.value = updatedTasks
+
+            _taskList.value = activeTasks
+            _failedTasks.value = failedTasks
         }
     }
+
+    fun failTask(task: Task) {
+        repository.failTask(task) {
+            // Başarılı olursa tekrar fetch edelim
+            fetchTasks()
+        }
+    }
+
+
+
 
     private fun calculateRemainingDays(task: Task): Int {
         val start = task.startDate?.toDate() ?: return task.totalDays
@@ -78,6 +103,5 @@ class TaskViewModel : ViewModel() {
             }
         }
     }
-
 
 }

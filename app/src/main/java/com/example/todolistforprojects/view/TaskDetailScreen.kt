@@ -98,7 +98,9 @@ fun taskDetailScreen(
                     checkedThumbColor = Color.Green,      // Tıklandıktan sonraki renk
                     uncheckedThumbColor = Color.Red,      // Tıklanmadan önceki renk
                     checkedTrackColor = Color(0x8032CD32),
-                    uncheckedTrackColor = Color(0x80FF0000)
+                    uncheckedTrackColor = Color(0x80FF0000),
+                    uncheckedBorderColor = Color.Black,
+                    checkedBorderColor = Color.Black
                 )
             )
             Spacer(modifier= Modifier.weight(0.5f))
