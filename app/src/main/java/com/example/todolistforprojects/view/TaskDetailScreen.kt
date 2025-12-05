@@ -15,13 +15,15 @@ import androidx.compose.material3.Button
 import androidx.compose.material3.Checkbox
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Switch
+import androidx.compose.material3.SwitchColors
+import androidx.compose.material3.SwitchDefaults
 import androidx.compose.material3.Text
 import androidx.compose.material3.contentColorFor
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -39,6 +41,8 @@ import com.example.todolistforprojects.model.Task
 import com.example.todolistforprojects.ui.theme.ToDoListForProjectsTheme
 import com.example.todolistforprojects.viewmodel.TaskViewModel
 import kotlinx.coroutines.NonCancellable.isCompleted
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 import java.text.SimpleDateFormat
 import java.util.Locale
 
@@ -48,6 +52,8 @@ fun taskDetailScreen(
     viewModel: TaskViewModel = viewModel(),
     navController: NavController
 ){
+    var isClicked by remember { mutableStateOf(false) }
+    val coroutineScope = rememberCoroutineScope()
     val formattedDate = task.startDate?.toDate()?.let { date ->
         val sdf = java.text.SimpleDateFormat("dd MMMM yyyy, HH:mm", Locale("tr"))
         sdf.format(date)
@@ -74,15 +80,27 @@ fun taskDetailScreen(
             Spacer(modifier= Modifier.weight(1f))
 
             Switch(
-                checked = isCompleted,
+                checked = isClicked,
                 onCheckedChange = { checked ->
-                    if (checked) {
-                        viewModel.completeTask(task)
-                        viewModel.onTaskCompletedNavigate()
-                    }
-                }
-            )
 
+                    // İlk önce state güncellenir → renk değişir
+                    isClicked = checked
+
+                    if (checked) {
+                        coroutineScope.launch {
+                            delay(1000) // 1 saniye bekle
+                            viewModel.completeTask(task)
+                            navController.popBackStack()
+                        }
+                    }
+                },
+                colors = SwitchDefaults.colors(
+                    checkedThumbColor = Color.Green,      // Tıklandıktan sonraki renk
+                    uncheckedThumbColor = Color.Red,      // Tıklanmadan önceki renk
+                    checkedTrackColor = Color(0x8032CD32),
+                    uncheckedTrackColor = Color(0x80FF0000)
+                )
+            )
             Spacer(modifier= Modifier.weight(0.5f))
             Text(formattedDate, fontWeight = FontWeight.Bold, style = MaterialTheme.typography.headlineMedium, fontFamily = FontFamily.SansSerif)
 
