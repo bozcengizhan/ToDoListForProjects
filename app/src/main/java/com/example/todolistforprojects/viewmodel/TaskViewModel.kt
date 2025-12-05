@@ -20,6 +20,15 @@ class TaskViewModel : ViewModel() {
         fetchTasks()
     }
 
+    private val _completedTasks = MutableStateFlow<List<Task>>(emptyList())
+    val completedTasks: StateFlow<List<Task>> get() = _completedTasks
+
+    fun fetchCompletedTasks() {
+        repository.getCompletedTasksRealTime { list ->
+            _completedTasks.value = list
+        }
+    }
+
     fun fetchTasks() {
         repository.getTasksRealTime { taskListFromDb ->
             val updatedTasks = taskListFromDb.map { task ->
@@ -39,15 +48,17 @@ class TaskViewModel : ViewModel() {
         return if (remaining < 0) 0 else remaining
     }
 
-    fun addTask(name: String, description: String, totalDays: Int) {
+    fun addTask(name: String, description: String, totalDays: Int, creatorEmail: String) {
         val newTask = Task(
             name = name,
             description = description,
             totalDays = totalDays,
-            startDate = null // artık Firestore server timestamp ile atanacak
+            startDate = null, // Firestore server timestamp ile atanacak
+            creatorEmail = creatorEmail
         )
         repository.addTask(newTask)
     }
+
 
     fun deleteTask(task: Task, onComplete: (Boolean) -> Unit = {}) {
         repository.deleteTask(task) { success ->
@@ -56,6 +67,15 @@ class TaskViewModel : ViewModel() {
                 _taskList.value = _taskList.value.filter { it.id != task.id }
             }
             onComplete(success)
+        }
+    }
+
+
+    fun completeTask(task: Task) {
+        repository.markTaskCompleted(task) { success ->
+            if (success) {
+                fetchTasks() // listeleri güncelle
+            }
         }
     }
 

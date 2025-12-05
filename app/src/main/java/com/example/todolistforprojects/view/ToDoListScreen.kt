@@ -33,6 +33,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import androidx.navigation.compose.currentBackStackEntryAsState
@@ -60,10 +61,13 @@ fun toDoListScreen(
                 },
                 onSettingsClick = {
                     // Ayarlar sayfası yoksa eklemene yardımcı olurum
+                },
+                onFinishedClick = {
+                    navController.navigate("completedTasks")
                 }
             )
         }
-    ) {paddingValues ->
+    ) { paddingValues ->
 
         Column(
             modifier = Modifier
@@ -102,8 +106,14 @@ fun toDoListScreen(
 }
 
 @Composable
-fun BottomBar(onAddClick: () -> Unit, onSettingsClick: () -> Unit) {
+fun BottomBar(onAddClick: () -> Unit, onSettingsClick: () -> Unit, onFinishedClick: () -> Unit) {
     androidx.compose.material3.NavigationBar {
+        NavigationBarItem(
+            selected = false,
+            onClick = { onFinishedClick() },
+            icon = { Text("✔") },
+            label = { Text("Bitenler") }
+        )
         NavigationBarItem(
             selected = false,
             onClick = { onAddClick() },
@@ -135,16 +145,91 @@ fun TaskRow(task: Task, navController: NavController) {
             .padding(5.dp).width(150.dp)
     ) {
         Text(task.name, textAlign = TextAlign.Center, style = MaterialTheme.typography.headlineSmall)
-        Spacer(modifier = Modifier.height(4.dp))
+        Spacer(modifier = Modifier.height(10.dp))
         Text("Kalan Gün: ${task.totalDays}", color = if (task.totalDays == 0) Color.Red else Color.Green, textAlign = TextAlign.Center, fontWeight = FontWeight.ExtraBold)
+        Spacer(modifier = Modifier.height(10.dp))
+        Text("Ekleyen: ${task.creatorEmail}")
+
     }
 }
 
 
 @Preview(showBackground = true)
 @Composable
-fun toDoListPreview() {
+fun toDoListFakePreview() {
+    val fakeTasks = listOf(
+        Task(
+            id = "1",
+            name = "Toplantı Hazırlığı",
+            description = "Yarınki toplantı için sunum hazırla",
+            totalDays = 3,
+            startDate = com.google.firebase.Timestamp.now(),
+            creatorEmail = "ali@example.com"
+        ),
+        Task(
+            id = "2",
+            name = "Rapor Yazımı",
+            description = "Haftalık satış raporunu hazırla",
+            totalDays = 0,
+            startDate = com.google.firebase.Timestamp.now(),
+            creatorEmail = "ayse@example.com"
+        ),
+        Task(
+            id = "3",
+            name = "Kod İncelemesi",
+            description = "Takım arkadaşlarının PR'larını incele",
+            totalDays = 5,
+            startDate = com.google.firebase.Timestamp.now(),
+            creatorEmail = "mehmet@example.com"
+        )
+    )
+
+    // Fake ViewModel yerine direkt olarak task listesi geçiyoruz
     ToDoListForProjectsTheme {
-        toDoListScreen(navController = NavController(LocalContext.current), viewModel = TaskViewModel())
+        Column(
+            modifier = Modifier.fillMaxSize()
+        ) {
+            Scaffold(
+                bottomBar = {
+                    BottomBar(
+                        onAddClick = {},
+                        onSettingsClick = {},
+                        onFinishedClick = {}
+                    )
+                }
+            ) { paddingValues ->
+                Column(
+                    modifier = Modifier
+                        .padding(paddingValues)
+                        .fillMaxSize()
+                        .background(Color.White),
+                    verticalArrangement = Arrangement.Top,
+                    horizontalAlignment = Alignment.CenterHorizontally
+                ) {
+
+                    Spacer(modifier = Modifier.padding(25.dp))
+
+                    Text(
+                        text = "To Do List",
+                        style = MaterialTheme.typography.displayMedium
+                    )
+
+                    Spacer(modifier = Modifier.padding(40.dp))
+
+                    LazyRow(
+                        modifier = Modifier.height(250.dp),
+                        verticalAlignment = Alignment.CenterVertically,
+                        horizontalArrangement = Arrangement.Center,
+                        contentPadding = PaddingValues(5.dp)
+                    ) {
+                        items(fakeTasks) { task ->
+                            TaskRow(task = task, navController = NavController(LocalContext.current))
+                        }
+                    }
+
+                    Spacer(modifier = Modifier.padding(50.dp))
+                }
+            }
+        }
     }
 }

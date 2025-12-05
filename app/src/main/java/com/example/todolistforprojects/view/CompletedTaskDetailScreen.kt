@@ -18,7 +18,6 @@ import androidx.compose.material3.Switch
 import androidx.compose.material3.Text
 import androidx.compose.material3.contentColorFor
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -43,7 +42,7 @@ import java.text.SimpleDateFormat
 import java.util.Locale
 
 @Composable
-fun taskDetailScreen(
+fun completedTaskDetailScreen(
     task: Task,
     viewModel: TaskViewModel = viewModel(),
     navController: NavController
@@ -73,16 +72,14 @@ fun taskDetailScreen(
 
             Spacer(modifier= Modifier.weight(1f))
 
-            Switch(
-                checked = isCompleted,
-                onCheckedChange = { checked ->
-                    if (checked) {
-                        viewModel.completeTask(task)
-                        viewModel.onTaskCompletedNavigate()
-                    }
-                }
-            )
-
+            Button(
+                onClick = {
+                    viewModel.deleteTask(task)
+                    navController.popBackStack() // silince liste ekranına dön
+                },
+            ) {
+                Text("Sil")
+            }
             Spacer(modifier= Modifier.weight(0.5f))
             Text(formattedDate, fontWeight = FontWeight.Bold, style = MaterialTheme.typography.headlineMedium, fontFamily = FontFamily.SansSerif)
 

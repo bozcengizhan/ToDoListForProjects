@@ -22,6 +22,8 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import com.example.todolistforprojects.ui.theme.ToDoListForProjectsTheme
 import com.example.todolistforprojects.viewmodel.TaskViewModel
+import com.google.firebase.Firebase
+import com.google.firebase.auth.auth
 
 @Composable
 fun AddTaskScreen(
@@ -67,11 +69,13 @@ fun AddTaskScreen(
 
             Button(
                 onClick = {
+                    val currentUserEmail = Firebase.auth.currentUser?.email ?: ""
                     if (name.isNotBlank() && description.isNotBlank() && totalDays.isNotBlank()) {
                         viewModel.addTask(
                             name = name,
                             description = description,
-                            totalDays = totalDays.toInt()
+                            totalDays = totalDays.toInt(),
+                            creatorEmail = currentUserEmail
                         )
                         navController.popBackStack()
                     }

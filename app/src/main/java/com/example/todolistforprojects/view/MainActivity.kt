@@ -96,6 +96,20 @@ class MainActivity : ComponentActivity() {
                             composable("addTask") {
                                 AddTaskScreen(navController)
                             }
+                            composable("completedTasks") {
+                                CompletedTasksScreen(navController)
+                            }
+
+                            composable("completedTaskDetailScreen/{secilenTask}", arguments = listOf(navArgument("secilenTask"){
+                                type = NavType.StringType
+                            })){
+                                val taskString = remember {
+                                    it.arguments?.getString("secilenTask")
+                                }
+                                val secilenTask = Gson(). fromJson(taskString, Task::class.java)
+                                completedTaskDetailScreen(navController = navController,task = secilenTask)
+                            }
+
 
                         }
 
@@ -105,6 +119,7 @@ class MainActivity : ComponentActivity() {
             }
         }
     }
+
 
     fun registerUser(email: String, password: String) {
         auth.createUserWithEmailAndPassword(email, password)
@@ -210,15 +225,6 @@ fun MainScreen(
             onLogin(kullaniciMail.value, kullaniciSifre.value)
         }) {
             Text(text = "Giriş Yap", fontSize = 18.sp)
-        }
-
-        Spacer(modifier = Modifier.padding(25.dp))
-
-        // 🔹 Şirket hesabı oluştur BUTONU
-        Button(onClick = {
-            onRegister(kullaniciMail.value, kullaniciSifre.value)
-        }) {
-            Text(text = "Şirket hesabı oluştur", fontSize = 18.sp)
         }
     }
 }

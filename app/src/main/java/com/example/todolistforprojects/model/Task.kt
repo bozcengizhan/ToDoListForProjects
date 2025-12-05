@@ -6,6 +6,9 @@ data class Task(
     val id: String = "",
     val name: String = "",
     val description: String = "",
-    val totalDays: Int = 0,          // Başlangıçta verilen toplam gün sayısı
-    val startDate: Timestamp? = null // Görevin başlama tarihi
+    val totalDays: Int = 0,
+    val startDate: Timestamp? = null,
+    val creatorEmail: String = "",
+    val status: String = "active" // active | completed
 )
+
