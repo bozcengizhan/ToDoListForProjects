@@ -43,19 +43,31 @@ fun AddTaskScreen(
             verticalArrangement = Arrangement.spacedBy(16.dp)
         ) {
 
+            val maxLength = 45
+            val maxDescriptionLength = 350
+
             OutlinedTextField(
                 value = name,
-                onValueChange = { name = it },
+                onValueChange = {
+                    if (it.length <= maxLength) {
+                        name = it
+                    }
+                },
                 label = { Text("Görev Adı") },
                 modifier = Modifier.fillMaxWidth()
             )
 
             OutlinedTextField(
                 value = description,
-                onValueChange = { description = it },
-                label = { Text("Açıklama") },
+                onValueChange = {
+                    if (it.length <= maxDescriptionLength) {
+                        description = it
+                    }
+                },
+                label = { Text("Görev Açıklaması") },
                 modifier = Modifier.fillMaxWidth()
             )
+
 
             OutlinedTextField(
                 value = totalDays,

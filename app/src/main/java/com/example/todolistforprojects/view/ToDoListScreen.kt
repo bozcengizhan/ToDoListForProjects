@@ -103,9 +103,9 @@ fun toDoListScreen(
             Spacer(modifier = Modifier.weight(1f))
 
             LazyRow(modifier = Modifier
-                .height(250.dp),
+                .height(350.dp),
                 verticalAlignment = Alignment.CenterVertically,
-                horizontalArrangement = Arrangement.Center,
+                horizontalArrangement = Arrangement.spacedBy(5.dp),
                 contentPadding = PaddingValues(5.dp)
             ) {
                 // tasks bir List<Task> — items çalışacaktır
@@ -134,12 +134,17 @@ fun BottomBar(
             .background(
                 brush = Brush.linearGradient(
                     colors = listOf(
-                        Color(0xFFFC6495),
-                        Color(0xFFFC6495)
-                    )
+                        Color(0xFFFF3E82),
+                        Color(0xFFFD1E6B),
+                        Color(0xFFFF0B60),
+                        Color(0xFFFF0B60),
+                        Color(0xFFFF0B60),
+                        Color(0xFFFD1E6B),
+                        Color(0xFFFF3E82)
+                        )
                 ),
                 shape = RoundedCornerShape(topStart = 50.dp,topEnd = 50.dp)
-            )
+            ).border(3.dp, Color.Black, RoundedCornerShape(topStart = 50.dp,topEnd = 50.dp))
 
     ) {
 
@@ -165,9 +170,9 @@ fun BottomBar(
 
             Box(
                 modifier = Modifier
-                    .height(40.dp)
-                    .width(1.dp)
-                    .background(Color.White.copy(alpha = 0.3f))
+                    .height(50.dp)
+                    .width(2.dp)
+                    .background(Color.Black.copy(alpha = 0.3f))
             )
 
             BottomBarButton(
@@ -178,9 +183,9 @@ fun BottomBar(
 
             Box(
                 modifier = Modifier
-                    .height(40.dp)
-                    .width(1.dp)
-                    .background(Color.White.copy(alpha = 0.3f))
+                    .height(50.dp)
+                    .width(2.dp)
+                    .background(Color.Black.copy(alpha = 0.3f))
             )
 
             BottomBarButton(
@@ -227,16 +232,16 @@ fun TaskRow(task: Task, navController: NavController) {
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally,
         modifier = Modifier
-            .background(Color(0xFFEFC0BE)).border(2.dp, Color.Black)
+            .background(Color(0xFFEFC0BE), RoundedCornerShape(10.dp)).border(3.dp, Color.Black, RoundedCornerShape(10.dp))
             .padding(5.dp)
             .clickable {
                 navController.navigate("taskDetailScreen/${Gson().toJson(task)}")
             }
-            .width(150.dp)
+            .width(250.dp),
     ) {
-        Text(task.name, textAlign = TextAlign.Center, style = MaterialTheme.typography.headlineSmall)
+        Text(task.name, textAlign = TextAlign.Center, style = MaterialTheme.typography.headlineSmall, maxLines = 4)
         Spacer(modifier = Modifier.height(10.dp))
-        Text("Kalan Gün: ${task.totalDays}", color = if (task.totalDays == 0) Color.Red else Color.Green, textAlign = TextAlign.Center, fontWeight = FontWeight.ExtraBold)
+        Text("Kalan Gün: ${task.totalDays}", color = Color(0xFF00B2DE), textAlign = TextAlign.Center, fontWeight = FontWeight.ExtraBold)
         Spacer(modifier = Modifier.height(10.dp))
         Text( "${task.creatorEmail}", textAlign = TextAlign.Center, fontWeight = FontWeight.ExtraBold)
 
@@ -250,16 +255,21 @@ fun ModernTopBar(title: String) {
             .fillMaxWidth()
             .height(70.dp)
             .padding(horizontal = 10.dp, vertical = 8.dp)
-            .shadow(12.dp, RoundedCornerShape(30.dp))  // gölge + yuvarlak köşe
+            .shadow(12.dp, RoundedCornerShape(10.dp))  // gölge + yuvarlak köşe
             .background(
                 brush = Brush.horizontalGradient(
                     colors = listOf(
-                        Color(0xFFFCB34B),
-                        Color(0xFFFF9900)
-                    )
+                        Color(0xFF4CC5FC),
+                        Color(0xFF31BBFA),
+                        Color(0xFF00AAFA),
+                        Color(0xFF00AAFA),
+                        Color(0xFF00AAFA),
+                        Color(0xFF31BBFA),
+                        Color(0xFF4CC5FC)
+                        )
                 ),
-                shape = RoundedCornerShape(40.dp)
-            ),
+                shape = RoundedCornerShape(20.dp)
+            ).border(3.dp, Color.Black, RoundedCornerShape(20.dp)),
         contentAlignment = Alignment.Center
     ) {
         Text(

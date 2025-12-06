@@ -31,6 +31,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontFamily
+import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
@@ -67,18 +68,9 @@ fun taskDetailScreen(
             verticalArrangement = Arrangement.Top,
             horizontalAlignment = Alignment.CenterHorizontally
         ){
-            Spacer(modifier= Modifier.weight(0.1f))
+            Spacer(modifier= Modifier.weight(0.2f))
             Text(task.name, fontWeight = FontWeight.Bold, style = MaterialTheme.typography.headlineLarge)
-            Spacer(modifier= Modifier.weight(1.5f))
-
-            Text(task.description, Modifier.width(350.dp), textAlign = TextAlign.Center, style = MaterialTheme.typography.headlineSmall)
-
-            Spacer(modifier= Modifier.weight(0.25f))
-
-            Text("Kalan Gün: ${task.totalDays}")
-
-            Spacer(modifier= Modifier.weight(1f))
-
+            Spacer(modifier= Modifier.weight(0.1f))
             Switch(
                 checked = isClicked,
                 onCheckedChange = { checked ->
@@ -103,8 +95,18 @@ fun taskDetailScreen(
                     checkedBorderColor = Color.Black
                 )
             )
+            Spacer(modifier= Modifier.weight(0.35f))
+
+            Text(task.description, Modifier.width(350.dp), textAlign = TextAlign.Center, style = MaterialTheme.typography.headlineSmall)
+
             Spacer(modifier= Modifier.weight(0.5f))
-            Text(formattedDate, fontWeight = FontWeight.Bold, style = MaterialTheme.typography.headlineMedium, fontFamily = FontFamily.SansSerif)
+
+            Text("Kalan Gün: ${task.totalDays}")
+
+            Spacer(modifier= Modifier.weight(0.25f))
+
+
+            Text(formattedDate, fontWeight = FontWeight.Bold, style = MaterialTheme.typography.headlineMedium, fontFamily = FontFamily.SansSerif, fontStyle = FontStyle.Italic)
 
         }
     }
