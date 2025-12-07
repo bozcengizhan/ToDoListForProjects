@@ -15,6 +15,7 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -75,9 +76,7 @@ fun toDoListScreen(
 
 
     Scaffold(
-        topBar = {
-            ModernTopBar(title = "To Do List")
-        },
+
         bottomBar = {
             BottomBar(
                 onAddClick = {
@@ -100,7 +99,12 @@ fun toDoListScreen(
             verticalArrangement = Arrangement.Top,
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            Spacer(modifier = Modifier.weight(1f))
+            Spacer(modifier = Modifier.weight(0.1f))
+
+
+            ModernTopBar(title ="To Do List")
+
+            Spacer(modifier = Modifier.weight(0.7f))
 
             LazyRow(modifier = Modifier
                 .height(350.dp),
@@ -241,7 +245,7 @@ fun TaskRow(task: Task, navController: NavController) {
     ) {
         Text(task.name, textAlign = TextAlign.Center, style = MaterialTheme.typography.headlineSmall, maxLines = 4)
         Spacer(modifier = Modifier.height(10.dp))
-        Text("Kalan Gün: ${task.totalDays}", color = Color(0xFF00B2DE), textAlign = TextAlign.Center, fontWeight = FontWeight.ExtraBold)
+        Text("Kalan Gün: ${task.totalDays}", color = Color(0xFF00E166), textAlign = TextAlign.Center, fontWeight = FontWeight.ExtraBold)
         Spacer(modifier = Modifier.height(10.dp))
         Text( "${task.creatorEmail}", textAlign = TextAlign.Center, fontWeight = FontWeight.ExtraBold)
 
@@ -277,8 +281,10 @@ fun ModernTopBar(title: String) {
             color = Color.White,
             style = MaterialTheme.typography.headlineMedium.copy(
                 fontWeight = FontWeight.Bold,
-                fontSize = MaterialTheme.typography.headlineMedium.fontSize * 1.5f // %20 daha büyük
-            )
+                fontSize = MaterialTheme.typography.headlineMedium.fontSize * 1.5f, // %20 daha büyük
+            ),
+            modifier = Modifier.padding(6.dp)
+
         )
     }
 }

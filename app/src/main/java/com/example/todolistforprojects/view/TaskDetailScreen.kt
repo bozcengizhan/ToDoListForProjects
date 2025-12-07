@@ -2,15 +2,19 @@ package com.example.todolistforprojects.view
 
 import android.widget.ToggleButton
 import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.layout.wrapContentSize
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Button
 import androidx.compose.material3.Checkbox
 import androidx.compose.material3.MaterialTheme
@@ -27,6 +31,8 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.shadow
+import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.Font
@@ -64,23 +70,23 @@ fun taskDetailScreen(
         Column(
             modifier = Modifier
                 .fillMaxSize()
-                .background(Color.White),
+                .background(Color(0xFFEFC0BE)),
             verticalArrangement = Arrangement.Top,
             horizontalAlignment = Alignment.CenterHorizontally
         ){
-            Spacer(modifier= Modifier.weight(0.2f))
-            Text(task.name, fontWeight = FontWeight.Bold, style = MaterialTheme.typography.headlineLarge)
-            Spacer(modifier= Modifier.weight(0.1f))
+
+            ModernTopBar5(title = task.name)
+
+            Spacer(modifier= Modifier.weight(0.01f))
             Switch(
                 checked = isClicked,
                 onCheckedChange = { checked ->
 
-                    // İlk önce state güncellenir → renk değişir
                     isClicked = checked
 
                     if (checked) {
                         coroutineScope.launch {
-                            delay(1000) // 1 saniye bekle
+                            delay(1000)
                             viewModel.completeTask(task)
                             navController.popBackStack()
                         }
@@ -91,26 +97,79 @@ fun taskDetailScreen(
                     uncheckedThumbColor = Color.Red,      // Tıklanmadan önceki renk
                     checkedTrackColor = Color(0x8032CD32),
                     uncheckedTrackColor = Color(0x80FF0000),
-                    uncheckedBorderColor = Color.Black,
-                    checkedBorderColor = Color.Black
+                    uncheckedBorderColor = Color(0xFFF1B6B2),
+                    checkedBorderColor = Color(0xFFF1B6B2)
                 )
             )
             Spacer(modifier= Modifier.weight(0.35f))
 
-            Text(task.description, Modifier.width(350.dp), textAlign = TextAlign.Center, style = MaterialTheme.typography.headlineSmall)
+            ModernCardBar(title = task.description)
 
-            Spacer(modifier= Modifier.weight(0.5f))
+            Spacer(modifier= Modifier.weight(0.75f))
 
-            Text("Kalan Gün: ${task.totalDays}")
+            Text("Kalan Gün: ${task.totalDays}", fontWeight = FontWeight.ExtraBold, style = MaterialTheme.typography.headlineSmall, color = Color(0xFF00E166))
 
-            Spacer(modifier= Modifier.weight(0.25f))
+            Spacer(modifier= Modifier.weight(0.1f))
 
 
-            Text(formattedDate, fontWeight = FontWeight.Bold, style = MaterialTheme.typography.headlineMedium, fontFamily = FontFamily.SansSerif, fontStyle = FontStyle.Italic)
+            Text(formattedDate, fontWeight = FontWeight.ExtraBold, style = MaterialTheme.typography.headlineMedium, fontFamily = FontFamily.SansSerif, fontStyle = FontStyle.Italic, color = Color(0xFFFFF8E7))
 
         }
+
     }
 
+}
+
+
+@Composable
+fun ModernTopBar5(title: String) {
+    Box(
+        modifier = Modifier
+            .wrapContentSize()
+            .padding(horizontal = 20.dp, vertical = 4.dp),
+        contentAlignment = Alignment.Center
+    ) {
+        Text(
+            text = title,
+            color = Color(0xFFFFF8E7),
+            style = MaterialTheme.typography.headlineMedium.copy(
+                fontWeight = FontWeight.Bold,
+                fontSize = MaterialTheme.typography.headlineMedium.fontSize * 1.8f // %20 daha büyük
+            ),
+            modifier = Modifier.padding(6.dp)
+        )
+    }
+}
+
+@Composable
+fun ModernCardBar(title: String) {
+    Box(
+        modifier = Modifier
+            .wrapContentSize()
+            .padding(horizontal = 10.dp)
+            .shadow(12.dp, RoundedCornerShape(5.dp))  // gölge + yuvarlak köşe
+            .background(
+                brush = Brush.horizontalGradient(
+                    colors = listOf(
+                        Color(0xFFFFF8E7),
+                        Color(0xFFFDF3DB),
+                        Color(0xFFFFF8E7)
+                    )
+                ),
+                shape = RoundedCornerShape(20.dp)
+            ),
+        contentAlignment = Alignment.Center
+    ) {
+        Text(
+            text = title,
+            color = Color(0xFFF1B6B2),
+            style = MaterialTheme.typography.headlineMedium.copy(
+                fontWeight = FontWeight.Bold,
+                fontSize = MaterialTheme.typography.headlineSmall.fontSize * 1.2f // %20 daha büyük
+            ),
+            modifier = Modifier.padding(8.dp)
+        )
+    }
 }
 
 

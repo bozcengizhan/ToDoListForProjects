@@ -80,7 +80,11 @@ fun AddTaskScreen(
                 modifier = Modifier.fillMaxWidth(),
                 colors = OutlinedTextFieldDefaults.colors(
                     focusedBorderColor = Color(0xFF8600BD),
-                    unfocusedBorderColor = Color.Black
+                    unfocusedBorderColor = Color.Black,
+                    focusedLabelColor = Color(0xFF8600BD),
+                    unfocusedLabelColor = Color.Black,
+                    focusedPrefixColor = Color(0xFF8600BD),
+                    unfocusedPrefixColor = Color.Black
                 )
             )
             Spacer(modifier = Modifier.height(10.dp))
@@ -96,7 +100,11 @@ fun AddTaskScreen(
                 modifier = Modifier.fillMaxWidth(),
                 colors = OutlinedTextFieldDefaults.colors(
                     focusedBorderColor = Color(0xFF8600BD),
-                    unfocusedBorderColor = Color.Black
+                    unfocusedBorderColor = Color.Black,
+                    focusedLabelColor = Color(0xFF8600BD),
+                    unfocusedLabelColor = Color.Black,
+                    focusedPrefixColor = Color(0xFF8600BD),
+                    unfocusedPrefixColor = Color.Black
                 )
             )
             Spacer(modifier = Modifier.height(10.dp))
@@ -112,7 +120,11 @@ fun AddTaskScreen(
                 modifier = Modifier.fillMaxWidth(),
                 colors = OutlinedTextFieldDefaults.colors(
                     focusedBorderColor = Color(0xFF8600BD),
-                    unfocusedBorderColor = Color.Black
+                    unfocusedBorderColor = Color.Black,
+                    focusedLabelColor = Color(0xFF8600BD),
+                    unfocusedLabelColor = Color.Black,
+                    focusedPrefixColor = Color(0xFF8600BD),
+                    unfocusedPrefixColor = Color.Black
                 )
             )
             Spacer(modifier = Modifier.weight(0.5f))
@@ -131,7 +143,10 @@ fun AddTaskScreen(
                     }
                 },
                 colors = ButtonDefaults.buttonColors(Color(0xFFB409FF)),
-                modifier = Modifier.align(Alignment.CenterHorizontally).size(125.dp,50.dp). border(3.dp,color = Color.Black, shape = RoundedCornerShape(30.dp)), shape = RoundedCornerShape(30.dp)
+                modifier = Modifier.align(Alignment.CenterHorizontally).size(125.dp,50.dp)
+                    .border(3.dp,color = Color.Black, shape = RoundedCornerShape(30.dp))
+                    .shadow(12.dp, RoundedCornerShape(10.dp))  // gölge + yuvarlak köşe
+                , shape = RoundedCornerShape(30.dp)
             ) {
                 Text("Kaydet", fontWeight = FontWeight.Bold, fontSize = 24.sp)
             }
@@ -147,7 +162,7 @@ fun ModernTopBar4(title: String) {
         modifier = Modifier
             .fillMaxWidth()
             .height(70.dp)
-            .padding(horizontal = 10.dp, vertical = 8.dp)
+            .padding(horizontal = 70.dp)
             .shadow(12.dp, RoundedCornerShape(10.dp))  // gölge + yuvarlak köşe
             .background(
                 brush = Brush.horizontalGradient(
