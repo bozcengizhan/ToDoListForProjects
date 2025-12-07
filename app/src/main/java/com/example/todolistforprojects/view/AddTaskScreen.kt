@@ -1,23 +1,41 @@
 package com.example.todolistforprojects.view
 
+import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonColors
+import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
+import androidx.compose.material3.OutlinedTextFieldDefaults
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.shadow
+import androidx.compose.ui.graphics.Brush
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import com.example.todolistforprojects.ui.theme.ToDoListForProjectsTheme
@@ -34,7 +52,7 @@ fun AddTaskScreen(
     var description by remember { mutableStateOf("") }
     var totalDays by remember { mutableStateOf("") } // Gün sayısı
 
-    Scaffold { innerPadding ->
+    Scaffold (containerColor = Color(0xFFC2A5FD)) { innerPadding ->
         Column(
             modifier = Modifier
                 .padding(innerPadding)
@@ -46,6 +64,11 @@ fun AddTaskScreen(
             val maxLength = 45
             val maxDescriptionLength = 350
 
+
+            ModernTopBar4(title = "Add Task")
+
+            Spacer(modifier = Modifier.weight(0.25f))
+
             OutlinedTextField(
                 value = name,
                 onValueChange = {
@@ -54,8 +77,13 @@ fun AddTaskScreen(
                     }
                 },
                 label = { Text("Görev Adı") },
-                modifier = Modifier.fillMaxWidth()
+                modifier = Modifier.fillMaxWidth(),
+                colors = OutlinedTextFieldDefaults.colors(
+                    focusedBorderColor = Color(0xFF8600BD),
+                    unfocusedBorderColor = Color.Black
+                )
             )
+            Spacer(modifier = Modifier.height(10.dp))
 
             OutlinedTextField(
                 value = description,
@@ -65,8 +93,13 @@ fun AddTaskScreen(
                     }
                 },
                 label = { Text("Görev Açıklaması") },
-                modifier = Modifier.fillMaxWidth()
+                modifier = Modifier.fillMaxWidth(),
+                colors = OutlinedTextFieldDefaults.colors(
+                    focusedBorderColor = Color(0xFF8600BD),
+                    unfocusedBorderColor = Color.Black
+                )
             )
+            Spacer(modifier = Modifier.height(10.dp))
 
 
             OutlinedTextField(
@@ -76,8 +109,13 @@ fun AddTaskScreen(
                     if (input.all { it.isDigit() }) totalDays = input
                 },
                 label = { Text("Süre (Gün)") },
-                modifier = Modifier.fillMaxWidth()
+                modifier = Modifier.fillMaxWidth(),
+                colors = OutlinedTextFieldDefaults.colors(
+                    focusedBorderColor = Color(0xFF8600BD),
+                    unfocusedBorderColor = Color.Black
+                )
             )
+            Spacer(modifier = Modifier.weight(0.5f))
 
             Button(
                 onClick = {
@@ -92,13 +130,52 @@ fun AddTaskScreen(
                         navController.popBackStack()
                     }
                 },
-                modifier = Modifier.fillMaxWidth()
+                colors = ButtonDefaults.buttonColors(Color(0xFFB409FF)),
+                modifier = Modifier.align(Alignment.CenterHorizontally).size(125.dp,50.dp). border(3.dp,color = Color.Black, shape = RoundedCornerShape(30.dp)), shape = RoundedCornerShape(30.dp)
             ) {
-                Text("Kaydet")
+                Text("Kaydet", fontWeight = FontWeight.Bold, fontSize = 24.sp)
             }
         }
     }
 }
+
+
+
+@Composable
+fun ModernTopBar4(title: String) {
+    Box(
+        modifier = Modifier
+            .fillMaxWidth()
+            .height(70.dp)
+            .padding(horizontal = 10.dp, vertical = 8.dp)
+            .shadow(12.dp, RoundedCornerShape(10.dp))  // gölge + yuvarlak köşe
+            .background(
+                brush = Brush.horizontalGradient(
+                    colors = listOf(
+                        Color(0xFFCD67FD),
+                        Color(0xFFC244FD),
+                        Color(0xFFB723FC),
+                        Color(0xFFAD00FF),
+                        Color(0xFFB723FC),
+                        Color(0xFFC244FD),
+                        Color(0xFFCD67FD)
+                    )
+                ),
+                shape = RoundedCornerShape(20.dp)
+            ).border(3.dp, Color.Black, RoundedCornerShape(20.dp)),
+        contentAlignment = Alignment.Center
+    ) {
+        Text(
+            text = title,
+            color = Color.White,
+            style = MaterialTheme.typography.headlineMedium.copy(
+                fontWeight = FontWeight.Bold,
+                fontSize = MaterialTheme.typography.headlineMedium.fontSize * 1.5f // %20 daha büyük
+            )
+        )
+    }
+}
+
 
 
 @Preview(showBackground = true)

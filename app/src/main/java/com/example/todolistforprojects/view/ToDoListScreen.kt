@@ -254,7 +254,7 @@ fun ModernTopBar(title: String) {
         modifier = Modifier
             .fillMaxWidth()
             .height(70.dp)
-            .padding(horizontal = 10.dp, vertical = 8.dp)
+            .padding(horizontal = 40.dp, vertical = 4.dp)
             .shadow(12.dp, RoundedCornerShape(10.dp))  // gölge + yuvarlak köşe
             .background(
                 brush = Brush.horizontalGradient(
