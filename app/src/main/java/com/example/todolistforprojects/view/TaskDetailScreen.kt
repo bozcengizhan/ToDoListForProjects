@@ -44,6 +44,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import com.example.todolistforprojects.model.Task
@@ -114,17 +115,21 @@ fun taskDetailScreen(
                 brush = Brush.horizontalGradient(
                     colors =
                         listOf(
+                            Color(0xFFF5EEDF),
                             Color(0xFFFFF8E7),
                             Color(0xFFFFF8E7),
-                            Color(0xFFFFF8E7)
+                            Color(0xFFFFF8E7),
+                            Color(0xFFF5EEDF)
                         )
-                    ),shape = RoundedCornerShape(10.dp)).shadow(12.dp, RoundedCornerShape(5.dp))
+                    ),shape = RoundedCornerShape(10.dp))
             )
 
             Spacer(modifier= Modifier.weight(0.25f))
 
-
-            Text(formattedDate, fontWeight = FontWeight.ExtraBold, style = MaterialTheme.typography.titleSmall, fontFamily = FontFamily.SansSerif, fontStyle = FontStyle.Italic, color = Color(0xFFFFF8E7))
+            Text("${task.creatorEmail}, " + formattedDate, fontWeight = FontWeight.ExtraBold, style = MaterialTheme.typography.titleMedium, fontFamily = FontFamily.SansSerif, fontStyle = FontStyle.Italic, color = Color(
+                0xFF7C5E5C
+            )
+            )
 
         }
 
@@ -178,7 +183,7 @@ fun ModernCardBar(title: String) {
             color = Color(0xFFF1B6B2),
             style = MaterialTheme.typography.headlineMedium.copy(
                 fontWeight = FontWeight.Bold,
-                fontSize = MaterialTheme.typography.headlineSmall.fontSize * 1.2f // %20 daha büyük
+                fontSize = MaterialTheme.typography.headlineSmall.fontSize * 1.1f // %20 daha büyük
             ),
             modifier = Modifier.padding(8.dp)
         )

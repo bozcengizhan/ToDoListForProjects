@@ -243,15 +243,9 @@ fun TaskRow(task: Task, navController: NavController) {
             }
             .width(250.dp),
     ) {
-        Text(task.name, textAlign = TextAlign.Center, style = MaterialTheme.typography.headlineSmall, maxLines = 4, color = Color.Black)
-        Spacer(modifier = Modifier.height(10.dp))
-        Text("Kalan Gün: ${task.totalDays}", color = Color(0xFFFFECC8), textAlign = TextAlign.Center, fontWeight = FontWeight.ExtraBold)
-        Spacer(modifier = Modifier.height(10.dp))
-        Text( "${task.creatorEmail}", textAlign = TextAlign.Center, fontWeight = FontWeight.ExtraBold, color = Color(
-            0xFFFF9E71
-        )
-        )
-
+        Text(task.name, textAlign = TextAlign.Center, style = MaterialTheme.typography.headlineMedium, maxLines = 4, color = Color.Black)
+        Spacer(modifier = Modifier.height(20.dp))
+        Text("Kalan Gün: ${task.totalDays}", color = Color(0xFFFFECC8), textAlign = TextAlign.Center, fontWeight = FontWeight.ExtraBold, fontSize = 20.sp)
     }
 }
 
