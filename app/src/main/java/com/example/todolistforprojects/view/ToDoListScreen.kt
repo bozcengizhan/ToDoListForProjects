@@ -138,13 +138,15 @@ fun BottomBar(
             .background(
                 brush = Brush.linearGradient(
                     colors = listOf(
-                        Color(0xFFFF986F),
-                        Color(0xFFFFA96F),
-                        Color(0xFFFF9E71),
-                        Color(0xFFFF9671),
-                        Color(0xFFFF9671),
-                        Color(0xFFFFA16F),
-                        Color(0xFFFF986F)
+                        Color(0xFFECAFAD),
+                        Color(0xFFECAFAD),
+                        Color(0xFFEEB9B7),
+                        Color(0xFFECAFAD),
+                        Color(0xFFECAFAD),
+                        Color(0xFFECAFAD),
+                        Color(0xFFEEB9B7),
+                        Color(0xFFECAFAD),
+                        Color(0xFFECAFAD)
                         )
                 ),
                 shape = RoundedCornerShape(topStart = 50.dp,topEnd = 50.dp)
@@ -163,14 +165,17 @@ fun BottomBar(
                 .fillMaxSize()
                 .padding(horizontal = 24.dp),
             verticalAlignment = Alignment.CenterVertically,
-            horizontalArrangement = Arrangement.SpaceBetween
+            horizontalArrangement = Arrangement.SpaceEvenly
         ) {
+
+            Spacer(modifier = Modifier.weight(0.5f))
 
             BottomBarButton(
                 title = "Completed",
                 icon = Icons.Default.Check,
                 onClick = onFinishedClick
             )
+            Spacer(modifier = Modifier.weight(1f))
 
             Box(
                 modifier = Modifier
@@ -179,11 +184,13 @@ fun BottomBar(
                     .background(Color.Black.copy(alpha = 0.3f))
             )
 
+            Spacer(modifier = Modifier.weight(1f))
             BottomBarButton(
                 title = "Add",
                 icon = Icons.Default.Add,
                 onClick = onAddClick
             )
+            Spacer(modifier = Modifier.weight(1f))
 
             Box(
                 modifier = Modifier
@@ -191,12 +198,15 @@ fun BottomBar(
                     .width(2.dp)
                     .background(Color.Black.copy(alpha = 0.3f))
             )
+
+            Spacer(modifier = Modifier.weight(1f))
 
             BottomBarButton(
                 title = "Fails",
                 icon = Icons.Default.Close,
                 onClick = onFailsClick
             )
+            Spacer(modifier = Modifier.weight(0.5f))
         }
     }
 }
@@ -241,11 +251,11 @@ fun TaskRow(task: Task, navController: NavController) {
             .clickable {
                 navController.navigate("taskDetailScreen/${Gson().toJson(task)}")
             }
-            .width(250.dp),
+            .width(200.dp),
     ) {
-        Text(task.name, textAlign = TextAlign.Center, style = MaterialTheme.typography.headlineMedium, maxLines = 4, color = Color.Black)
+        Text(task.name, textAlign = TextAlign.Center, style = MaterialTheme.typography.headlineMedium, maxLines = 5, color = Color.Black)
         Spacer(modifier = Modifier.height(20.dp))
-        Text("Kalan Gün: ${task.totalDays}", color = Color(0xFFFFECC8), textAlign = TextAlign.Center, fontWeight = FontWeight.ExtraBold, fontSize = 20.sp)
+        Text("Remaining Days: ${task.totalDays}", color = Color(0xFFFFECC8), textAlign = TextAlign.Center, fontWeight = FontWeight.ExtraBold, fontSize = 20.sp)
     }
 }
 
@@ -260,13 +270,13 @@ fun ModernTopBar(title: String) {
             .background(
                 brush = Brush.horizontalGradient(
                     colors = listOf(
-                        Color(0xFFFF986F),
-                        Color(0xFFFFA96F),
-                        Color(0xFFFF9E71),
-                        Color(0xFFFF9671),
-                        Color(0xFFFF9671),
-                        Color(0xFFFFA16F),
-                        Color(0xFFFF986F)
+                        Color(0xFFEEC3C1),
+                        Color(0xFFEEB9B7),
+                        Color(0xFFECAFAD),
+                        Color(0xFFECAFAD),
+                        Color(0xFFECAFAD),
+                        Color(0xFFEEB9B7),
+                        Color(0xFFEEC3C1)
                     )
                 ),
                 shape = RoundedCornerShape(20.dp)

@@ -6,7 +6,10 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.layout.wrapContentSize
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonColors
 import androidx.compose.material3.MaterialTheme
@@ -14,8 +17,11 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.shadow
+import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontFamily
+import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
@@ -30,9 +36,9 @@ import java.util.Locale
 fun failedTaskDetailScreen(navController: NavController, viewModel: TaskViewModel = viewModel(), task: Task)
 {
     val formattedDate = task.startDate?.toDate()?.let { date ->
-        val sdf = java.text.SimpleDateFormat("dd MMMM yyyy, HH:mm", Locale("tr"))
+        val sdf = java.text.SimpleDateFormat("dd MMMM yyyy, HH:mm")
         sdf.format(date)
-    } ?: "Tarih yok"
+    } ?: "No Date Data"
 
     Box(modifier = Modifier.fillMaxSize()){
         Column(
@@ -42,26 +48,79 @@ fun failedTaskDetailScreen(navController: NavController, viewModel: TaskViewMode
             verticalArrangement = Arrangement.Top,
             horizontalAlignment = Alignment.CenterHorizontally
         ){
-            Spacer(modifier= Modifier.weight(0.1f))
-            Text(task.name, fontWeight = FontWeight.Bold, style = MaterialTheme.typography.headlineLarge)
+            ModernTopBar7(task.name)
+
             Spacer(modifier= Modifier.weight(1.5f))
 
-            Text(task.description, Modifier.width(350.dp), textAlign = TextAlign.Center, style = MaterialTheme.typography.headlineSmall)
+            ModernCardBar3(task.description)
 
             Spacer(modifier= Modifier.weight(1f))
 
             Button(
-                colors = ButtonColors(containerColor = Color.Red, contentColor = Color.Black,disabledContainerColor = Color.Red, disabledContentColor = Color.Black),
+                colors = ButtonColors(containerColor = Color(0xFFFFF8E7), contentColor = Color(0xFFFAA0A0),disabledContainerColor = Color(0xFFFFF8E7), disabledContentColor = Color(0xFFFAA0A0)),
+                modifier = Modifier.shadow(16.dp, RoundedCornerShape(15.dp)),
                 onClick = {
                     viewModel.deleteFailedTask(task)
                     navController.popBackStack() // silince liste ekranına dön
                 },
             ) {
-                Text("Sil")
+                Text("Delete")
             }
             Spacer(modifier= Modifier.weight(0.5f))
-            Text(formattedDate, fontWeight = FontWeight.Bold, style = MaterialTheme.typography.headlineMedium, fontFamily = FontFamily.SansSerif)
-
+            Text("${task.creatorEmail}, " + formattedDate, fontWeight = FontWeight.ExtraBold, style = MaterialTheme.typography.titleMedium, fontFamily = FontFamily.SansSerif, fontStyle = FontStyle.Italic, color = Color(0xFF7C5E5C))
         }
+    }
+}
+
+@Composable
+fun ModernTopBar7(title: String) {
+    Box(
+        modifier = Modifier
+            .wrapContentSize()
+            .padding(horizontal = 20.dp, vertical = 4.dp)
+            .shadow(100.dp, RoundedCornerShape(5.dp))  ,// gölge + yuvarlak köşe),
+
+        contentAlignment = Alignment.Center
+    ) {
+        Text(
+            text = title,
+            color = Color(0xFFFFF8E7),
+            style = MaterialTheme.typography.headlineMedium.copy(
+                fontWeight = FontWeight.Bold,
+                fontSize = MaterialTheme.typography.headlineMedium.fontSize * 1.8f // %20 daha büyük
+            ),
+            modifier = Modifier.padding(6.dp), textAlign = TextAlign.Center
+        )
+    }
+}
+
+@Composable
+fun ModernCardBar3(title: String) {
+    Box(
+        modifier = Modifier
+            .wrapContentSize()
+            .padding(horizontal = 10.dp)
+            .shadow(12.dp, RoundedCornerShape(5.dp))  // gölge + yuvarlak köşe
+            .background(
+                brush = Brush.horizontalGradient(
+                    colors = listOf(
+                        Color(0xFFFFF8E7),
+                        Color(0xFFFDF3DB),
+                        Color(0xFFFFF8E7)
+                    )
+                ),
+                shape = RoundedCornerShape(20.dp)
+            ),
+        contentAlignment = Alignment.Center
+    ) {
+        Text(
+            text = title,
+            color = Color(0xFFFAA0A0),
+            style = MaterialTheme.typography.headlineMedium.copy(
+                fontWeight = FontWeight.Bold,
+                fontSize = MaterialTheme.typography.headlineSmall.fontSize * 1.1f // %20 daha büyük
+            ),
+            modifier = Modifier.padding(8.dp)
+        )
     }
 }

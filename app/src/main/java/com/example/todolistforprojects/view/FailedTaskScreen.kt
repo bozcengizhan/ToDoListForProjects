@@ -44,7 +44,6 @@ fun failedTaskScreen(
 ){
     val failedTasks by viewModel.failedTasks.collectAsState()
 
-    // Ekran açılır açılmaz verileri çek
     LaunchedEffect(true) {
         viewModel.fetchFailedTasks()
     }
@@ -64,7 +63,7 @@ fun failedTaskScreen(
 
         if (failedTasks.isEmpty()) {
             Text(
-                text = "Başarısız görev bulunmuyor.",
+                text = "There are no failed tasks.",
                 color = Color.Gray,
                 style = MaterialTheme.typography.bodyLarge,
                 textAlign = TextAlign.Center
@@ -155,7 +154,7 @@ fun FailedTaskItem(task: Task, onClick: () -> Unit) {
         Spacer(modifier = Modifier.height(6.dp))
 
         Text(
-            text = "Ekleyen: ${task.creatorEmail}",
+            text = "Added By: ${task.creatorEmail}",
             style = MaterialTheme.typography.bodySmall,
             color = Color.Gray
         )
@@ -163,7 +162,7 @@ fun FailedTaskItem(task: Task, onClick: () -> Unit) {
         Spacer(modifier = Modifier.height(4.dp))
 
         Text(
-            text = "Durum: Başarısız ✘",
+            text = "Status: Unsuccessful ✘",
             color = Color(0xFFF83C59),
             fontWeight = FontWeight.Bold
         )

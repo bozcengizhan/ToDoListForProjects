@@ -41,7 +41,6 @@ fun CompletedTasksScreen(
 ) {
     val completedTasks by viewModel.completedTasks.collectAsState()
 
-    // Ekran açılır açılmaz verileri çek
     LaunchedEffect(true) {
         viewModel.fetchCompletedTasks()
     }
@@ -49,18 +48,18 @@ fun CompletedTasksScreen(
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .background(Color(0xFF3BE576))
+            .background(Color(0xFF50E383))
             .padding(16.dp),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
 
         ModernTopBar3(title = "Completed Tasks")
 
-        Spacer(modifier = Modifier.height(20.dp))
+        Spacer(modifier = Modifier.height(5.dp))
 
         if (completedTasks.isEmpty()) {
             Text(
-                text = "Tamamlanan görev bulunmuyor.",
+                text = "There are no completed tasks.",
                 color = Color.Gray,
                 style = MaterialTheme.typography.bodyLarge,
                 textAlign = TextAlign.Center
@@ -150,7 +149,7 @@ fun CompletedTaskItem(task: Task, onClick: () -> Unit) {
         Spacer(modifier = Modifier.height(6.dp))
 
         Text(
-            text = "Ekleyen: ${task.creatorEmail}",
+            text = "Added By: ${task.creatorEmail}",
             style = MaterialTheme.typography.bodySmall,
             color = Color.Gray
         )
@@ -158,8 +157,8 @@ fun CompletedTaskItem(task: Task, onClick: () -> Unit) {
         Spacer(modifier = Modifier.height(4.dp))
 
         Text(
-            text = "Durum: Tamamlandı ✔",
-            color = Color(0xFF00E010),
+            text = "Status: Successful ✔",
+            color = Color(0xFF10DA1F),
             fontWeight = FontWeight.Bold
         )
     }

@@ -33,6 +33,7 @@ import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -61,11 +62,11 @@ fun AddTaskScreen(
             verticalArrangement = Arrangement.spacedBy(16.dp)
         ) {
 
-            val maxLength = 45
+            val maxLength = 60
             val maxDescriptionLength = 325
 
 
-            ModernTopBar4(title = "Add Task")
+            ModernTopBar4(title = "New Task")
 
             Spacer(modifier = Modifier.weight(0.15f))
 
@@ -76,7 +77,7 @@ fun AddTaskScreen(
                         name = it
                     }
                 },
-                label = { Text("Görev Adı") },
+                label = { Text("Task Name") },
                 modifier = Modifier.fillMaxWidth(),
                 colors = OutlinedTextFieldDefaults.colors(
                     focusedBorderColor = Color(0xFF8600BD),
@@ -96,7 +97,7 @@ fun AddTaskScreen(
                         description = it
                     }
                 },
-                label = { Text("Görev Açıklaması") },
+                label = { Text("Task Description") },
                 modifier = Modifier.fillMaxWidth(),
                 colors = OutlinedTextFieldDefaults.colors(
                     focusedBorderColor = Color(0xFF8600BD),
@@ -116,7 +117,7 @@ fun AddTaskScreen(
                     // Sadece rakam girişine izin veriyoruz
                     if (input.all { it.isDigit() }) totalDays = input
                 },
-                label = { Text("Süre (Gün)") },
+                label = { Text("Duration (Days)") },
                 modifier = Modifier.fillMaxWidth(),
                 colors = OutlinedTextFieldDefaults.colors(
                     focusedBorderColor = Color(0xFF8600BD),
@@ -148,7 +149,7 @@ fun AddTaskScreen(
                     .shadow(12.dp, RoundedCornerShape(10.dp))  // gölge + yuvarlak köşe
                 , shape = RoundedCornerShape(30.dp)
             ) {
-                Text("Kaydet", fontWeight = FontWeight.Bold, fontSize = 24.sp)
+                Text("Add", fontWeight = FontWeight.Bold, fontSize = 24.sp)
             }
         }
     }

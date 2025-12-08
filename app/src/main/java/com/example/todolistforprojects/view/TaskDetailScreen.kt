@@ -65,9 +65,9 @@ fun taskDetailScreen(
     var isClicked by remember { mutableStateOf(false) }
     val coroutineScope = rememberCoroutineScope()
     val formattedDate = task.startDate?.toDate()?.let { date ->
-        val sdf = java.text.SimpleDateFormat("dd MMMM yyyy, HH:mm", Locale("tr"))
+        val sdf = java.text.SimpleDateFormat("dd MMMM yyyy, HH:mm")
         sdf.format(date)
-    } ?: "Tarih yok"
+    } ?: "No Date Data"
 
     Box(modifier = Modifier.fillMaxSize()){
         Column(
@@ -110,20 +110,7 @@ fun taskDetailScreen(
 
             Spacer(modifier= Modifier.weight(0.75f))
 
-            Text("Kalan Gün: ${task.totalDays}", fontWeight = FontWeight.ExtraBold, style = MaterialTheme.typography.headlineLarge, color = Color(0xFF85BE92), modifier = Modifier
-                .background(
-                brush = Brush.horizontalGradient(
-                    colors =
-                        listOf(
-                            Color(0xFFF5EEDF),
-                            Color(0xFFFFF8E7),
-                            Color(0xFFFFF8E7),
-                            Color(0xFFFFF8E7),
-                            Color(0xFFF5EEDF)
-                        )
-                    ),shape = RoundedCornerShape(10.dp))
-            )
-
+            ModernCardBar("${task.totalDays} Days Left!")
             Spacer(modifier= Modifier.weight(0.25f))
 
             Text("${task.creatorEmail}, " + formattedDate, fontWeight = FontWeight.ExtraBold, style = MaterialTheme.typography.titleMedium, fontFamily = FontFamily.SansSerif, fontStyle = FontStyle.Italic, color = Color(
@@ -154,7 +141,8 @@ fun ModernTopBar5(title: String) {
                 fontWeight = FontWeight.Bold,
                 fontSize = MaterialTheme.typography.headlineMedium.fontSize * 1.8f // %20 daha büyük
             ),
-            modifier = Modifier.padding(6.dp)
+            modifier = Modifier.padding(6.dp),
+            textAlign = TextAlign.Center
         )
     }
 }
