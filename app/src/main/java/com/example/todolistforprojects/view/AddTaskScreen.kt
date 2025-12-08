@@ -52,7 +52,7 @@ fun AddTaskScreen(
     var description by remember { mutableStateOf("") }
     var totalDays by remember { mutableStateOf("") } // Gün sayısı
 
-    Scaffold (containerColor = Color(0xFFC2A5FD)) { innerPadding ->
+    Scaffold (containerColor = Color(0xFFCDB5FC)) { innerPadding ->
         Column(
             modifier = Modifier
                 .padding(innerPadding)
@@ -62,12 +62,12 @@ fun AddTaskScreen(
         ) {
 
             val maxLength = 45
-            val maxDescriptionLength = 350
+            val maxDescriptionLength = 325
 
 
             ModernTopBar4(title = "Add Task")
 
-            Spacer(modifier = Modifier.weight(0.25f))
+            Spacer(modifier = Modifier.weight(0.15f))
 
             OutlinedTextField(
                 value = name,
@@ -142,7 +142,7 @@ fun AddTaskScreen(
                         navController.popBackStack()
                     }
                 },
-                colors = ButtonDefaults.buttonColors(Color(0xFFB409FF)),
+                colors = ButtonDefaults.buttonColors(Color(0xFFB57AD2)),
                 modifier = Modifier.align(Alignment.CenterHorizontally).size(125.dp,50.dp)
                     .border(3.dp,color = Color.Black, shape = RoundedCornerShape(30.dp))
                     .shadow(12.dp, RoundedCornerShape(10.dp))  // gölge + yuvarlak köşe
@@ -167,13 +167,13 @@ fun ModernTopBar4(title: String) {
             .background(
                 brush = Brush.horizontalGradient(
                     colors = listOf(
-                        Color(0xFFCD67FD),
-                        Color(0xFFC244FD),
-                        Color(0xFFB723FC),
-                        Color(0xFFAD00FF),
-                        Color(0xFFB723FC),
-                        Color(0xFFC244FD),
-                        Color(0xFFCD67FD)
+                        Color(0xFFB57AD2),
+                        Color(0xFFB272D2),
+                        Color(0xFFB069D3),
+                        Color(0xFFB069D3),
+                        Color(0xFFB069D3),
+                        Color(0xFFB272D2),
+                        Color(0xFFB57AD2)
                     )
                 ),
                 shape = RoundedCornerShape(20.dp)

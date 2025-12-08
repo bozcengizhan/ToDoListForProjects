@@ -128,7 +128,8 @@ fun CompletedTaskItem(task: Task, onClick: () -> Unit) {
     Column(
         modifier = Modifier
             .fillMaxWidth()
-            .background(Color(0xFFE7FFE7), RoundedCornerShape(12.dp))
+            .background(Color(0xFFA9FAC7), RoundedCornerShape(12.dp))
+            .border(3.dp, Color.Black, RoundedCornerShape(12.dp))
             .padding(16.dp)
             .clickable { onClick() }
     ) {

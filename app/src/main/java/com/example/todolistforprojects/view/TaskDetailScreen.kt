@@ -1,5 +1,6 @@
 package com.example.todolistforprojects.view
 
+import android.R
 import android.widget.ToggleButton
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
@@ -40,6 +41,7 @@ import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
@@ -107,12 +109,22 @@ fun taskDetailScreen(
 
             Spacer(modifier= Modifier.weight(0.75f))
 
-            Text("Kalan Gün: ${task.totalDays}", fontWeight = FontWeight.ExtraBold, style = MaterialTheme.typography.headlineSmall, color = Color(0xFF00E166))
+            Text("Kalan Gün: ${task.totalDays}", fontWeight = FontWeight.ExtraBold, style = MaterialTheme.typography.headlineLarge, color = Color(0xFF85BE92), modifier = Modifier
+                .background(
+                brush = Brush.horizontalGradient(
+                    colors =
+                        listOf(
+                            Color(0xFFFFF8E7),
+                            Color(0xFFFFF8E7),
+                            Color(0xFFFFF8E7)
+                        )
+                    ),shape = RoundedCornerShape(10.dp)).shadow(12.dp, RoundedCornerShape(5.dp))
+            )
 
-            Spacer(modifier= Modifier.weight(0.1f))
+            Spacer(modifier= Modifier.weight(0.25f))
 
 
-            Text(formattedDate, fontWeight = FontWeight.ExtraBold, style = MaterialTheme.typography.headlineMedium, fontFamily = FontFamily.SansSerif, fontStyle = FontStyle.Italic, color = Color(0xFFFFF8E7))
+            Text(formattedDate, fontWeight = FontWeight.ExtraBold, style = MaterialTheme.typography.titleSmall, fontFamily = FontFamily.SansSerif, fontStyle = FontStyle.Italic, color = Color(0xFFFFF8E7))
 
         }
 
@@ -126,7 +138,8 @@ fun ModernTopBar5(title: String) {
     Box(
         modifier = Modifier
             .wrapContentSize()
-            .padding(horizontal = 20.dp, vertical = 4.dp),
+            .padding(horizontal = 20.dp, vertical = 4.dp)
+            .shadow(100.dp, RoundedCornerShape(5.dp))  ,// gölge + yuvarlak köşe),
         contentAlignment = Alignment.Center
     ) {
         Text(

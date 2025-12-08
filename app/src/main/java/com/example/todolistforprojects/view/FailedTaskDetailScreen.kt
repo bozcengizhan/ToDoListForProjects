@@ -38,7 +38,7 @@ fun failedTaskDetailScreen(navController: NavController, viewModel: TaskViewMode
         Column(
             modifier = Modifier
                 .fillMaxSize()
-                .background(Color.White),
+                .background(Color(0xFFFAA0A0)),
             verticalArrangement = Arrangement.Top,
             horizontalAlignment = Alignment.CenterHorizontally
         ){
@@ -47,10 +47,6 @@ fun failedTaskDetailScreen(navController: NavController, viewModel: TaskViewMode
             Spacer(modifier= Modifier.weight(1.5f))
 
             Text(task.description, Modifier.width(350.dp), textAlign = TextAlign.Center, style = MaterialTheme.typography.headlineSmall)
-
-            Spacer(modifier= Modifier.weight(0.25f))
-
-            Text("Kalan Gün: ${task.totalDays}")
 
             Spacer(modifier= Modifier.weight(1f))
 

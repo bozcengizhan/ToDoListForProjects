@@ -95,7 +95,7 @@ fun toDoListScreen(
         Column(
             modifier = Modifier
                 .fillMaxSize()
-                .background(Color(0xFFFFE9C6)),
+                .background(Color(0xFFFFECC8)),
             verticalArrangement = Arrangement.Top,
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
@@ -138,13 +138,13 @@ fun BottomBar(
             .background(
                 brush = Brush.linearGradient(
                     colors = listOf(
-                        Color(0xFFFF3E82),
-                        Color(0xFFFD1E6B),
-                        Color(0xFFFF0B60),
-                        Color(0xFFFF0B60),
-                        Color(0xFFFF0B60),
-                        Color(0xFFFD1E6B),
-                        Color(0xFFFF3E82)
+                        Color(0xFFFF986F),
+                        Color(0xFFFFA96F),
+                        Color(0xFFFF9E71),
+                        Color(0xFFFF9671),
+                        Color(0xFFFF9671),
+                        Color(0xFFFFA16F),
+                        Color(0xFFFF986F)
                         )
                 ),
                 shape = RoundedCornerShape(topStart = 50.dp,topEnd = 50.dp)
@@ -236,18 +236,21 @@ fun TaskRow(task: Task, navController: NavController) {
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally,
         modifier = Modifier
-            .background(Color(0xFFEFC0BE), RoundedCornerShape(10.dp)).border(3.dp, Color.Black, RoundedCornerShape(10.dp))
+            .background(Color(0xFFEEC3C1), RoundedCornerShape(10.dp)).border(3.dp, Color.Black, RoundedCornerShape(10.dp))
             .padding(5.dp)
             .clickable {
                 navController.navigate("taskDetailScreen/${Gson().toJson(task)}")
             }
             .width(250.dp),
     ) {
-        Text(task.name, textAlign = TextAlign.Center, style = MaterialTheme.typography.headlineSmall, maxLines = 4)
+        Text(task.name, textAlign = TextAlign.Center, style = MaterialTheme.typography.headlineSmall, maxLines = 4, color = Color.Black)
         Spacer(modifier = Modifier.height(10.dp))
-        Text("Kalan Gün: ${task.totalDays}", color = Color(0xFF00E166), textAlign = TextAlign.Center, fontWeight = FontWeight.ExtraBold)
+        Text("Kalan Gün: ${task.totalDays}", color = Color(0xFFFFECC8), textAlign = TextAlign.Center, fontWeight = FontWeight.ExtraBold)
         Spacer(modifier = Modifier.height(10.dp))
-        Text( "${task.creatorEmail}", textAlign = TextAlign.Center, fontWeight = FontWeight.ExtraBold)
+        Text( "${task.creatorEmail}", textAlign = TextAlign.Center, fontWeight = FontWeight.ExtraBold, color = Color(
+            0xFFFF9E71
+        )
+        )
 
     }
 }
@@ -258,19 +261,19 @@ fun ModernTopBar(title: String) {
         modifier = Modifier
             .fillMaxWidth()
             .height(70.dp)
-            .padding(horizontal = 40.dp, vertical = 4.dp)
+            .padding(horizontal = 40.dp)
             .shadow(12.dp, RoundedCornerShape(10.dp))  // gölge + yuvarlak köşe
             .background(
                 brush = Brush.horizontalGradient(
                     colors = listOf(
-                        Color(0xFF4CC5FC),
-                        Color(0xFF31BBFA),
-                        Color(0xFF00AAFA),
-                        Color(0xFF00AAFA),
-                        Color(0xFF00AAFA),
-                        Color(0xFF31BBFA),
-                        Color(0xFF4CC5FC)
-                        )
+                        Color(0xFFFF986F),
+                        Color(0xFFFFA96F),
+                        Color(0xFFFF9E71),
+                        Color(0xFFFF9671),
+                        Color(0xFFFF9671),
+                        Color(0xFFFFA16F),
+                        Color(0xFFFF986F)
+                    )
                 ),
                 shape = RoundedCornerShape(20.dp)
             ).border(3.dp, Color.Black, RoundedCornerShape(20.dp)),
@@ -281,7 +284,7 @@ fun ModernTopBar(title: String) {
             color = Color.White,
             style = MaterialTheme.typography.headlineMedium.copy(
                 fontWeight = FontWeight.Bold,
-                fontSize = MaterialTheme.typography.headlineMedium.fontSize * 1.5f, // %20 daha büyük
+                fontSize = MaterialTheme.typography.headlineMedium.fontSize * 1.8f, // %20 daha büyük
             ),
             modifier = Modifier.padding(6.dp)
 
