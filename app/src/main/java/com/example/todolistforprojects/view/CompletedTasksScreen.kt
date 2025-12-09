@@ -45,6 +45,11 @@ fun CompletedTasksScreen(
         viewModel.fetchCompletedTasks()
     }
 
+    LaunchedEffect(Unit) {
+        viewModel.cleanExpiredTasks()
+    }
+
+
     Column(
         modifier = Modifier
             .fillMaxSize()

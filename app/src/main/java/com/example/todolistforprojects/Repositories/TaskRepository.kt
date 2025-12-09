@@ -144,4 +144,43 @@ class TaskRepository {
             .addOnFailureListener { onComplete(false) }
     }
 
+    fun cleanExpiredTasks(onComplete: (Boolean) -> Unit = {}) {
+        val now = com.google.firebase.Timestamp.now()
+
+        val collections = listOf("completed_tasks", "failedTasks")
+        var failures = 0
+        var pending = collections.size
+
+        collections.forEach { col ->
+            db.collection(col)
+                .whereLessThan("expireAt", now)
+                .get()
+                .addOnSuccessListener { snapshot ->
+                    val batch = db.batch()
+
+                    for (doc in snapshot.documents) {
+                        batch.delete(doc.reference)
+                    }
+
+                    batch.commit()
+                        .addOnFailureListener { failures++ }
+                        .addOnCompleteListener {
+                            pending--
+                            if (pending == 0) {
+                                onComplete(failures == 0)
+                            }
+                        }
+
+                }
+                .addOnFailureListener {
+                    failures++
+                    pending--
+                    if (pending == 0) {
+                        onComplete(false)
+                    }
+                }
+        }
+    }
+
+
 }

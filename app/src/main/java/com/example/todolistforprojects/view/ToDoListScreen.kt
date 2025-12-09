@@ -49,6 +49,7 @@ import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
@@ -291,6 +292,26 @@ fun ModernTopBar(title: String, navController: NavController) {
         contentAlignment = Alignment.Center
     ) {
 
+
+
+        // 🔥 Logout butonu
+        Icon(
+            imageVector = Icons.Default.Logout,
+            contentDescription = "Logout",
+            tint = Color.White,
+            modifier = Modifier
+                .align(Alignment.CenterEnd)
+                .padding(start =10.dp,end = 10.dp)
+                .size(28.dp)
+                .clickable {
+                    FirebaseAuth.getInstance().signOut()
+
+                    // Çıkıştan sonra login ekranına dön
+                    navController.navigate("mainScreen") {
+                    }
+                }.graphicsLayer(scaleX = -1f)
+        )
+
         // Başlık
         Text(
             text = title,
@@ -302,23 +323,6 @@ fun ModernTopBar(title: String, navController: NavController) {
             modifier = Modifier.padding(6.dp)
         )
 
-        // 🔥 Logout butonu
-        Icon(
-            imageVector = Icons.Default.Logout,
-            contentDescription = "Logout",
-            tint = Color.White,
-            modifier = Modifier
-                .align(Alignment.CenterEnd)
-                .padding(end = 20.dp)
-                .size(28.dp)
-                .clickable {
-                    FirebaseAuth.getInstance().signOut()
-
-                    // Çıkıştan sonra login ekranına dön
-                    navController.navigate("mainScreen") {
-                    }
-                }
-        )
     }
 }
 

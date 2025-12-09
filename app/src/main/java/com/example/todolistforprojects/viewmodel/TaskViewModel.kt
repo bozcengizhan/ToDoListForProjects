@@ -117,4 +117,14 @@ class TaskViewModel : ViewModel() {
         }
     }
 
+    fun cleanExpiredTasks() {
+        repository.cleanExpiredTasks { success ->
+            if (success) {
+                fetchCompletedTasks()
+                fetchFailedTasks()
+            }
+        }
+    }
+
+
 }
