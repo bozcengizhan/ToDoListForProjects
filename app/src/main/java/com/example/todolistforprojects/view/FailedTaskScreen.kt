@@ -140,7 +140,8 @@ fun FailedTaskItem(task: Task, onClick: () -> Unit) {
         Text(
             text = task.name,
             style = MaterialTheme.typography.titleMedium,
-            fontWeight = FontWeight.Bold
+            fontWeight = FontWeight.Bold,
+            color = Color.Black
         )
 
         Spacer(modifier = Modifier.height(6.dp))

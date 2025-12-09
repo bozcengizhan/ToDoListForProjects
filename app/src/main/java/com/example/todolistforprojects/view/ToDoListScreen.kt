@@ -20,10 +20,12 @@ import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.filled.Logout
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.AddCircle
 import androidx.compose.material.icons.filled.Check
 import androidx.compose.material.icons.filled.Close
+import androidx.compose.material.icons.filled.Logout
 import androidx.compose.material3.BottomAppBar
 import androidx.compose.material3.Divider
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -61,6 +63,7 @@ import androidx.navigation.compose.currentBackStackEntryAsState
 import com.example.todolistforprojects.model.Task
 import com.example.todolistforprojects.ui.theme.ToDoListForProjectsTheme
 import com.example.todolistforprojects.viewmodel.TaskViewModel
+import com.google.firebase.auth.FirebaseAuth
 import com.google.gson.Gson
 import org.w3c.dom.Text
 
@@ -70,6 +73,7 @@ fun toDoListScreen(
     viewModel: TaskViewModel = viewModel()
 )
 {
+
 
     // ---- Buradaki kullanım doğru: StateFlow.collectAsState ile Compose uyumu
     val tasks by viewModel.taskList.collectAsState()
@@ -92,6 +96,7 @@ fun toDoListScreen(
         }
     ) { paddingValues ->
 
+
         Column(
             modifier = Modifier
                 .fillMaxSize()
@@ -102,7 +107,8 @@ fun toDoListScreen(
             Spacer(modifier = Modifier.weight(0.1f))
 
 
-            ModernTopBar(title ="To Do List")
+            ModernTopBar(title = "To Do List", navController = navController)
+
 
             Spacer(modifier = Modifier.weight(0.7f))
 
@@ -260,13 +266,13 @@ fun TaskRow(task: Task, navController: NavController) {
 }
 
 @Composable
-fun ModernTopBar(title: String) {
+fun ModernTopBar(title: String, navController: NavController) {
     Box(
         modifier = Modifier
             .fillMaxWidth()
             .height(70.dp)
             .padding(horizontal = 40.dp)
-            .shadow(12.dp, RoundedCornerShape(10.dp))  // gölge + yuvarlak köşe
+            .shadow(12.dp, RoundedCornerShape(10.dp))
             .background(
                 brush = Brush.horizontalGradient(
                     colors = listOf(
@@ -280,21 +286,42 @@ fun ModernTopBar(title: String) {
                     )
                 ),
                 shape = RoundedCornerShape(20.dp)
-            ).border(3.dp, Color.Black, RoundedCornerShape(20.dp)),
+            )
+            .border(3.dp, Color.Black, RoundedCornerShape(20.dp)),
         contentAlignment = Alignment.Center
     ) {
+
+        // Başlık
         Text(
             text = title,
             color = Color.White,
             style = MaterialTheme.typography.headlineMedium.copy(
                 fontWeight = FontWeight.Bold,
-                fontSize = MaterialTheme.typography.headlineMedium.fontSize * 1.8f, // %20 daha büyük
+                fontSize = MaterialTheme.typography.headlineMedium.fontSize * 1.8f,
             ),
             modifier = Modifier.padding(6.dp)
+        )
 
+        // 🔥 Logout butonu
+        Icon(
+            imageVector = Icons.Default.Logout,
+            contentDescription = "Logout",
+            tint = Color.White,
+            modifier = Modifier
+                .align(Alignment.CenterEnd)
+                .padding(end = 20.dp)
+                .size(28.dp)
+                .clickable {
+                    FirebaseAuth.getInstance().signOut()
+
+                    // Çıkıştan sonra login ekranına dön
+                    navController.navigate("mainScreen") {
+                    }
+                }
         )
     }
 }
+
 
 
 

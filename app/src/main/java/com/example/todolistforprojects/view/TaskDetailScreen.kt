@@ -131,7 +131,7 @@ fun ModernTopBar5(title: String) {
         modifier = Modifier
             .wrapContentSize()
             .padding(horizontal = 20.dp, vertical = 4.dp)
-            .shadow(100.dp, RoundedCornerShape(5.dp))  ,// gölge + yuvarlak köşe),
+            .shadow(200.dp, RoundedCornerShape(5.dp))  ,// gölge + yuvarlak köşe),
         contentAlignment = Alignment.Center
     ) {
         Text(

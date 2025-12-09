@@ -58,7 +58,7 @@ fun failedTaskDetailScreen(navController: NavController, viewModel: TaskViewMode
 
             Button(
                 colors = ButtonColors(containerColor = Color(0xFFFFF8E7), contentColor = Color(0xFFFAA0A0),disabledContainerColor = Color(0xFFFFF8E7), disabledContentColor = Color(0xFFFAA0A0)),
-                modifier = Modifier.shadow(16.dp, RoundedCornerShape(15.dp)),
+                modifier = Modifier.shadow(24.dp, RoundedCornerShape(15.dp)),
                 onClick = {
                     viewModel.deleteFailedTask(task)
                     navController.popBackStack() // silince liste ekranına dön

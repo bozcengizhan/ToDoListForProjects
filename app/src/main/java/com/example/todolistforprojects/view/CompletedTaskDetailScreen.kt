@@ -78,7 +78,7 @@ fun completedTaskDetailScreen(
                 colors = ButtonColors(containerColor = Color(0xFFFFF8E7), contentColor = Color(
                     0xFF7CFC7C
                 ),disabledContainerColor = Color(0xFFFFF8E7), disabledContentColor = Color(0xFF7CFC7C)),
-                modifier = Modifier.shadow(16.dp, RoundedCornerShape(15.dp)),
+                modifier = Modifier.shadow(24.dp, RoundedCornerShape(15.dp)),
                 onClick = {
                     viewModel.deleteCompletedTask(task)
                     navController.popBackStack() // silince liste ekranına dön
