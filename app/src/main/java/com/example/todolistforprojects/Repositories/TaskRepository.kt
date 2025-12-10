@@ -120,6 +120,18 @@ class TaskRepository {
             }
     }
 
+    fun deleteTask(task: Task, onComplete: (Boolean) -> Unit) {
+        if (task.id.isEmpty()) {
+            onComplete(false)
+            return
+        }
+
+        db.collection("tasks").document(task.id)
+            .delete()
+            .addOnSuccessListener { onComplete(true) }
+            .addOnFailureListener { onComplete(false) }
+    }
+
     fun deleteCompletedTask(task: Task, onComplete: (Boolean) -> Unit) {
         if (task.id.isEmpty()) {
             onComplete(false)
