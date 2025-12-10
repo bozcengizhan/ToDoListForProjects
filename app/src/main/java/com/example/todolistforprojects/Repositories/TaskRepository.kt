@@ -42,6 +42,7 @@ class TaskRepository {
 
     fun getCompletedTasksRealTime(onDataChanged: (List<Task>) -> Unit) {
         db.collection("completed_tasks")
+            .orderBy("startDate", com.google.firebase.firestore.Query.Direction.DESCENDING)
             .addSnapshotListener { snapshot, _ ->
                 if (snapshot != null) {
                     val tasks = snapshot.toObjects(Task::class.java)
@@ -50,8 +51,10 @@ class TaskRepository {
             }
     }
 
+
     fun getFailedTasksRealTime(onDataChanged: (List<Task>) -> Unit) {
         db.collection("failedTasks")
+            .orderBy("startDate", com.google.firebase.firestore.Query.Direction.DESCENDING)
             .addSnapshotListener { snapshot, _ ->
                 if (snapshot != null) {
                     val tasks = snapshot.toObjects(Task::class.java)
@@ -59,6 +62,7 @@ class TaskRepository {
                 }
             }
     }
+
     fun failTask(task: Task, onComplete: (Boolean) -> Unit = {}) {
         val failedRef = db.collection("failedTasks").document(task.id)
         val expireDate = com.google.firebase.Timestamp.now() // şimdi
@@ -112,6 +116,7 @@ class TaskRepository {
 
     fun getTasksRealTime(onDataChanged: (List<Task>) -> Unit) {
         db.collection("tasks")
+            .orderBy("startDate", com.google.firebase.firestore.Query.Direction.DESCENDING)
             .addSnapshotListener { snapshot, _ ->
                 if (snapshot != null) {
                     val tasks = snapshot.toObjects(Task::class.java)
@@ -119,6 +124,7 @@ class TaskRepository {
                 }
             }
     }
+
 
     fun deleteTask(task: Task, onComplete: (Boolean) -> Unit) {
         if (task.id.isEmpty()) {

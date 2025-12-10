@@ -1,17 +1,22 @@
 package com.example.todolistforprojects.view
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.DeleteForever
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonColors
+import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -56,16 +61,20 @@ fun failedTaskDetailScreen(navController: NavController, viewModel: TaskViewMode
 
             Spacer(modifier= Modifier.weight(1f))
 
-            Button(
-                colors = ButtonColors(containerColor = Color(0xFFFFF8E7), contentColor = Color(0xFFFAA0A0),disabledContainerColor = Color(0xFFFFF8E7), disabledContentColor = Color(0xFFFAA0A0)),
-                modifier = Modifier.shadow(24.dp, RoundedCornerShape(15.dp)),
-                onClick = {
-                    viewModel.deleteFailedTask(task)
-                    navController.popBackStack() // silince liste ekranına dön
-                },
-            ) {
-                Text("Delete")
-            }
+            Icon(
+                imageVector = Icons.Default.DeleteForever,
+                contentDescription = "Logout",
+                tint = Color.White,
+                modifier = Modifier.align(Alignment.CenterHorizontally)
+                    .padding(start =10.dp,end = 10.dp)
+                    .size(28.dp)
+                    .clickable {
+                        viewModel.deleteFailedTask(task)
+                        navController.popBackStack()
+                    }
+                    .shadow(12.dp, RoundedCornerShape(10.dp))
+
+            )
             Spacer(modifier= Modifier.weight(0.5f))
             Text("${task.creatorEmail}, " + formattedDate, fontWeight = FontWeight.ExtraBold, style = MaterialTheme.typography.titleMedium, fontFamily = FontFamily.SansSerif, fontStyle = FontStyle.Italic, color = Color(0xFF7C5E5C))
         }
