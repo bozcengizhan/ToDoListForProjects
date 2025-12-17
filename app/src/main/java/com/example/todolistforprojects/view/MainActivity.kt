@@ -13,6 +13,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.BasicTextField
@@ -31,6 +32,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.shadow
+import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontStyle
@@ -209,7 +211,7 @@ fun MainScreen(
         Spacer(modifier = Modifier.padding(10.dp))
 
 
-        ModernTopBar5("WorkSync")
+        ModernTopBarMain("WorkSync")
 
         Spacer(modifier = Modifier.padding(85.dp))
 
@@ -264,6 +266,38 @@ fun MainScreen(
     }
 }
 
+@Composable
+fun ModernTopBarMain(title: String) {
+    Box(
+        modifier = Modifier
+            .fillMaxWidth()
+            .height(90.dp)
+            .padding(horizontal = 60.dp, vertical = 8.dp)
+            .shadow(24.dp, RoundedCornerShape(10.dp))  // gölge + yuvarlak köşe
+            .background(
+                brush = Brush.horizontalGradient(
+                    colors = listOf(
+                        Color(0xFF93D7EC),
+                        Color(0xFF62CDEC),
+                        Color(0xFF62CDEC),
+                        Color(0xFF62CDEC),
+                        Color(0xFF93D7EC)
+                    )
+                ),
+                shape = RoundedCornerShape(20.dp)
+            ).border(3.dp, Color.Black, RoundedCornerShape(20.dp)),
+        contentAlignment = Alignment.Center
+    ) {
+        Text(
+            text = title,
+            color = Color.White,
+            style = MaterialTheme.typography.headlineMedium.copy(
+                fontWeight = FontWeight.Bold,
+                fontSize = MaterialTheme.typography.headlineMedium.fontSize * 1.9f // %20 daha büyük
+            )
+        )
+    }
+}
 
 
 

@@ -27,6 +27,7 @@ import androidx.compose.material.icons.filled.Check
 import androidx.compose.material.icons.filled.Close
 import androidx.compose.material.icons.filled.Logout
 import androidx.compose.material3.BottomAppBar
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Divider
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
@@ -79,6 +80,8 @@ fun toDoListScreen(
     // ---- Buradaki kullanım doğru: StateFlow.collectAsState ile Compose uyumu
     val tasks by viewModel.taskList.collectAsState()
 
+    val isLoading by viewModel.isLoading.collectAsState()
+
 
     Scaffold(
 
@@ -113,17 +116,24 @@ fun toDoListScreen(
 
             Spacer(modifier = Modifier.weight(0.7f))
 
-            LazyRow(modifier = Modifier
-                .height(350.dp),
-                verticalAlignment = Alignment.CenterVertically,
-                horizontalArrangement = Arrangement.spacedBy(5.dp),
-                contentPadding = PaddingValues(5.dp)
-            ) {
-                // tasks bir List<Task> — items çalışacaktır
-                items(tasks) { task ->
-                    TaskRow(task = task, navController = navController)
+
+            if (isLoading) {
+                CircularProgressIndicator()
+            } else {
+                LazyRow(modifier = Modifier
+                    .height(350.dp),
+                    verticalAlignment = Alignment.CenterVertically,
+                    horizontalArrangement = Arrangement.spacedBy(5.dp),
+                    contentPadding = PaddingValues(5.dp)
+                ) {
+                    // tasks bir List<Task> — items çalışacaktır
+                    items(tasks) { task ->
+                        TaskRow(task = task, navController = navController)
+                    }
                 }
             }
+
+
 
             Spacer(modifier = Modifier.weight(1f))
 
@@ -145,15 +155,10 @@ fun BottomBar(
             .background(
                 brush = Brush.linearGradient(
                     colors = listOf(
-                        Color(0xFFECAFAD),
-                        Color(0xFFECAFAD),
-                        Color(0xFFEEB9B7),
-                        Color(0xFFECAFAD),
-                        Color(0xFFECAFAD),
-                        Color(0xFFECAFAD),
-                        Color(0xFFEEB9B7),
-                        Color(0xFFECAFAD),
-                        Color(0xFFECAFAD)
+                        Color(0xFFF4A261),
+                        Color(0xFFF4A261),
+                        Color(0xFFF4A261)
+
                         )
                 ),
                 shape = RoundedCornerShape(topStart = 50.dp,topEnd = 50.dp)
@@ -253,16 +258,16 @@ fun TaskRow(task: Task, navController: NavController) {
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally,
         modifier = Modifier
-            .background(Color(0xFFEEC3C1), RoundedCornerShape(10.dp)).border(3.dp, Color.Black, RoundedCornerShape(10.dp))
+            .background(Color(0xFFF6BD8A), RoundedCornerShape(10.dp)).border(3.dp, Color.Black, RoundedCornerShape(10.dp))
             .padding(5.dp)
             .clickable {
                 navController.navigate("taskDetailScreen/${Gson().toJson(task)}")
             }
             .width(200.dp),
     ) {
-        Text(task.name, textAlign = TextAlign.Center, style = MaterialTheme.typography.headlineMedium, maxLines = 5, color = Color.Black)
+        Text(task.name, textAlign = TextAlign.Center, style = MaterialTheme.typography.headlineMedium, maxLines = 5, color = Color(0xFF4A4A4A))
         Spacer(modifier = Modifier.height(20.dp))
-        Text("Remaining Days: ${task.totalDays}", color = Color(0xFFFFECC8), textAlign = TextAlign.Center, fontWeight = FontWeight.ExtraBold, fontSize = 20.sp)
+        Text("Remaining Days: ${task.totalDays}", color = Color(0xFFFFF8E7), textAlign = TextAlign.Center, fontWeight = FontWeight.ExtraBold, fontSize = 20.sp)
     }
 }
 
@@ -277,13 +282,13 @@ fun ModernTopBar(title: String, navController: NavController) {
             .background(
                 brush = Brush.horizontalGradient(
                     colors = listOf(
-                        Color(0xFFEEC3C1),
-                        Color(0xFFEEB9B7),
-                        Color(0xFFECAFAD),
-                        Color(0xFFECAFAD),
-                        Color(0xFFECAFAD),
-                        Color(0xFFEEB9B7),
-                        Color(0xFFEEC3C1)
+                        Color(0xFFF3A668),
+                        Color(0xFFF3A668),
+                        Color(0xFFF3AA70),
+                        Color(0xFFF4A261),
+                        Color(0xFFF3AA70),
+                        Color(0xFFF3A668),
+                        Color(0xFFF3A668)
                     )
                 ),
                 shape = RoundedCornerShape(20.dp)
@@ -295,7 +300,7 @@ fun ModernTopBar(title: String, navController: NavController) {
         // Başlık
         Text(
             text = title,
-            color = Color.White,
+            color = Color(0xFFFFF8E7),
             style = MaterialTheme.typography.headlineMedium.copy(
                 fontWeight = FontWeight.Bold,
                 fontSize = MaterialTheme.typography.headlineMedium.fontSize * 1.8f,

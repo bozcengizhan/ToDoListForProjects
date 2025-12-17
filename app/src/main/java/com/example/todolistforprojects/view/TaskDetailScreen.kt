@@ -79,7 +79,7 @@ fun taskDetailScreen(
         Column(
             modifier = Modifier
                 .fillMaxSize()
-                .background(Color(0xFFEFC0BE)),
+                .background(Color(0xFFF6BD8A)),
             verticalArrangement = Arrangement.Top,
             horizontalAlignment = Alignment.CenterHorizontally
         ){
@@ -106,8 +106,8 @@ fun taskDetailScreen(
                     uncheckedThumbColor = Color.Red,      // Tıklanmadan önceki renk
                     checkedTrackColor = Color(0x8032CD32),
                     uncheckedTrackColor = Color(0x80FF0000),
-                    uncheckedBorderColor = Color(0xFFF1B6B2),
-                    checkedBorderColor = Color(0xFFF1B6B2)
+                    uncheckedBorderColor = Color(0xFFF6BD8A),
+                    checkedBorderColor = Color(0xFFF6BD8A)
                 )
             )
             Spacer(modifier= Modifier.weight(0.35f))
@@ -192,7 +192,7 @@ fun ModernCardBar(title: String) {
     ) {
         Text(
             text = title,
-            color = Color(0xFFF1B6B2),
+            color = Color(0xFFF6BD8A),
             style = MaterialTheme.typography.headlineMedium.copy(
                 fontWeight = FontWeight.Bold,
                 fontSize = MaterialTheme.typography.headlineSmall.fontSize * 1.1f // %20 daha büyük

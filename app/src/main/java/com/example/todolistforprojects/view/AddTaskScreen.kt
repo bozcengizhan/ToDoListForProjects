@@ -83,7 +83,7 @@ fun AddTaskScreen(
                     focusedBorderColor = Color(0xFF8600BD),
                     unfocusedBorderColor = Color.Black,
                     focusedLabelColor = Color(0xFF8600BD),
-                    unfocusedLabelColor = Color.Black,
+                    unfocusedLabelColor = Color(0xFFFFF8E7),
                     focusedPrefixColor = Color(0xFF8600BD),
                     unfocusedPrefixColor = Color.Black
                 )
@@ -103,7 +103,7 @@ fun AddTaskScreen(
                     focusedBorderColor = Color(0xFF8600BD),
                     unfocusedBorderColor = Color.Black,
                     focusedLabelColor = Color(0xFF8600BD),
-                    unfocusedLabelColor = Color.Black,
+                    unfocusedLabelColor = Color(0xFFFFF8E7),
                     focusedPrefixColor = Color(0xFF8600BD),
                     unfocusedPrefixColor = Color.Black
                 )
@@ -123,7 +123,7 @@ fun AddTaskScreen(
                     focusedBorderColor = Color(0xFF8600BD),
                     unfocusedBorderColor = Color.Black,
                     focusedLabelColor = Color(0xFF8600BD),
-                    unfocusedLabelColor = Color.Black,
+                    unfocusedLabelColor = Color(0xFFFFF8E7),
                     focusedPrefixColor = Color(0xFF8600BD),
                     unfocusedPrefixColor = Color.Black
                 )

@@ -14,6 +14,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -44,6 +45,8 @@ fun failedTaskScreen(
 ){
     val failedTasks by viewModel.failedTasks.collectAsState()
 
+    val isLoading by viewModel.isLoading.collectAsState()
+
     LaunchedEffect(true) {
         viewModel.fetchFailedTasks()
     }
@@ -66,30 +69,38 @@ fun failedTaskScreen(
 
         Spacer(modifier = Modifier.height(20.dp))
 
-        if (failedTasks.isEmpty()) {
-            Text(
-                text = "There are no failed tasks.",
-                color = Color.Gray,
-                style = MaterialTheme.typography.bodyLarge,
-                textAlign = TextAlign.Center
-            )
-        } else {
+        if(isLoading){
 
-            LazyColumn(
-                verticalArrangement = Arrangement.spacedBy(12.dp),
-                modifier = Modifier.fillMaxSize()
-            ) {
+            CircularProgressIndicator()
 
-                items(failedTasks) { task ->
+        }else{
 
-                    FailedTaskItem (
-                        task = task,
-                        onClick = {
-                            navController.navigate("failedTaskDetailScreen/${Gson().toJson(task)}")
-                        }
-                    )
+            if (failedTasks.isEmpty()) {
+                Text(
+                    text = "There are no failed tasks.",
+                    color = Color.Gray,
+                    style = MaterialTheme.typography.bodyLarge,
+                    textAlign = TextAlign.Center
+                )
+            } else {
+
+                LazyColumn(
+                    verticalArrangement = Arrangement.spacedBy(12.dp),
+                    modifier = Modifier.fillMaxSize()
+                ) {
+
+                    items(failedTasks) { task ->
+
+                        FailedTaskItem (
+                            task = task,
+                            onClick = {
+                                navController.navigate("failedTaskDetailScreen/${Gson().toJson(task)}")
+                            }
+                        )
+                    }
                 }
             }
+
         }
     }
 }
@@ -105,13 +116,11 @@ fun ModernTopBar2(title: String) {
             .background(
                 brush = Brush.horizontalGradient(
                     colors = listOf(
-                        Color(0xFFFFABAD),
                         Color(0xFFFF8688),
                         Color(0xFFFD6B6D),
                         Color(0xFFFD6B6D),
                         Color(0xFFFD6B6D),
-                        Color(0xFFFF8688),
-                        Color(0xFFFFABAD)
+                        Color(0xFFFF8688)
                     )
                 ),
                 shape = RoundedCornerShape(20.dp)

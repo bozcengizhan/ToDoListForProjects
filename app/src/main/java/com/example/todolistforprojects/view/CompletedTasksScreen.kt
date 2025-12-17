@@ -101,13 +101,11 @@ fun ModernTopBar3(title: String) {
             .background(
                 brush = Brush.horizontalGradient(
                     colors = listOf(
-                        Color(0xFF94E0B1),
-                        Color(0xFF6FE79A),
+                        Color(0xFF78E8A4),
                         Color(0xFF3BE576),
                         Color(0xFF3BE576),
                         Color(0xFF3BE576),
-                        Color(0xFF6FE79A),
-                        Color(0xFF94E0B1)
+                        Color(0xFF78E8A4)
                     )
                 ),
                 shape = RoundedCornerShape(20.dp)

@@ -11,6 +11,12 @@ import java.util.concurrent.TimeUnit
 
 class TaskViewModel : ViewModel() {
 
+
+
+    private val _isLoading = MutableStateFlow(true)
+    val isLoading: StateFlow<Boolean> = _isLoading
+
+
     private val repository = TaskRepository()
 
     private val _taskList = MutableStateFlow<List<Task>>(emptyList())
@@ -29,18 +35,29 @@ class TaskViewModel : ViewModel() {
     val failedTasks: StateFlow<List<Task>> get() = _failedTasks
 
     fun fetchCompletedTasks() {
+
+        _isLoading.value = true
         repository.getCompletedTasksRealTime { list ->
             _completedTasks.value = list
+
+            _isLoading.value = true
         }
     }
 
     fun fetchFailedTasks() {
+
+        _isLoading.value = true
         repository.getFailedTasksRealTime { list ->
             _failedTasks.value = list
+
+            _isLoading.value = false
         }
     }
 
+
     fun fetchTasks() {
+        _isLoading.value = true
+
         repository.getTasksRealTime { taskListFromDb ->
 
             val activeTasks = mutableListOf<Task>()
@@ -50,7 +67,7 @@ class TaskViewModel : ViewModel() {
                 val remaining = calculateRemainingDays(task)
 
                 if (remaining <= 0) {
-                    failTask(task)  // 🔥 burada sorun çözülmüş olacak
+                    failTask(task)
                     failedTasks.add(task.copy(totalDays = 0))
                 } else {
                     activeTasks.add(task.copy(totalDays = remaining))
@@ -59,8 +76,11 @@ class TaskViewModel : ViewModel() {
 
             _taskList.value = activeTasks
             _failedTasks.value = failedTasks
+
+            _isLoading.value = false // ✅ yükleme bitti
         }
     }
+
 
     fun failTask(task: Task) {
         repository.failTask(task) {
