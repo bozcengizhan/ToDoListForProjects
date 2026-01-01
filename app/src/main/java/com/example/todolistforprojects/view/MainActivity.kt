@@ -208,7 +208,7 @@ fun MainScreen(
         verticalArrangement = Arrangement.Top,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        Spacer(modifier = Modifier.padding(10.dp))
+        Spacer(modifier = Modifier.padding(20.dp))
 
 
         ModernTopBarMain("WorkSync")
@@ -255,7 +255,7 @@ fun MainScreen(
             visualTransformation = PasswordVisualTransformation()
         )
 
-        Spacer(modifier = Modifier.padding(80.dp))
+        Spacer(modifier = Modifier.padding(90.dp))
 
         // 🔹 Giriş Yap BUTONU
         Button(onClick = {
@@ -273,15 +273,15 @@ fun ModernTopBarMain(title: String) {
             .fillMaxWidth()
             .height(90.dp)
             .padding(horizontal = 60.dp, vertical = 8.dp)
-            .shadow(24.dp, RoundedCornerShape(10.dp))  // gölge + yuvarlak köşe
+            .shadow(24.dp, RoundedCornerShape(20.dp))  // gölge + yuvarlak köşe
             .background(
                 brush = Brush.horizontalGradient(
                     colors = listOf(
-                        Color(0xFF93D7EC),
+                        Color(0xFF8AD5EC),
                         Color(0xFF62CDEC),
                         Color(0xFF62CDEC),
                         Color(0xFF62CDEC),
-                        Color(0xFF93D7EC)
+                        Color(0xFF8AD5EC)
                     )
                 ),
                 shape = RoundedCornerShape(20.dp)
