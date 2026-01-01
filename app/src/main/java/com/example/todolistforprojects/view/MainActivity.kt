@@ -213,7 +213,7 @@ fun MainScreen(
 
         ModernTopBarMain("WorkSync")
 
-        Spacer(modifier = Modifier.padding(85.dp))
+        Spacer(modifier = Modifier.padding(100.dp))
 
 
         TextField(
