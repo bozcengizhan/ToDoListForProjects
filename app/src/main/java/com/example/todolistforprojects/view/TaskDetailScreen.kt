@@ -135,7 +135,7 @@ fun taskDetailScreen(
 
             ModernCardBar("${task.totalDays} Days Left!")
 
-            Spacer(modifier= Modifier.weight(0.25f))
+            Spacer(modifier= Modifier.weight(0.35f))
 
             Text("${task.creatorEmail}, " + formattedDate, fontWeight = FontWeight.ExtraBold, style = MaterialTheme.typography.titleMedium, fontFamily = FontFamily.SansSerif, fontStyle = FontStyle.Italic, color = Color(
                 0xFF7C5E5C

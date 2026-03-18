@@ -151,7 +151,7 @@ fun BottomBar(
     Box(
         modifier = Modifier
             .fillMaxWidth()
-            .height(70.dp)
+            .height(60.dp)
             .background(
                 brush = Brush.linearGradient(
                     colors = listOf(
@@ -175,7 +175,7 @@ fun BottomBar(
         Row(
             modifier = Modifier
                 .fillMaxSize()
-                .padding(horizontal = 24.dp),
+                .padding(horizontal = 34.dp),
             verticalAlignment = Alignment.CenterVertically,
             horizontalArrangement = Arrangement.SpaceEvenly
         ) {
@@ -208,17 +208,17 @@ fun BottomBar(
                 modifier = Modifier
                     .height(50.dp)
                     .width(2.dp)
-                    .background(Color.Black.copy(alpha = 0.3f))
+                    .background(Color.Black.copy(alpha = 0.4f))
             )
 
-            Spacer(modifier = Modifier.weight(1f))
+            Spacer(modifier = Modifier.weight(2f))
 
             BottomBarButton(
                 title = "Fails",
                 icon = Icons.Default.Close,
                 onClick = onFailsClick
             )
-            Spacer(modifier = Modifier.weight(0.5f))
+            Spacer(modifier = Modifier.weight(0.6f))
         }
     }
 }
@@ -239,9 +239,9 @@ fun BottomBarButton(
             imageVector = icon,
             contentDescription = title,
             tint = Color.White,
-            modifier = Modifier.size(22.dp)
+            modifier = Modifier.size(23.dp)
         )
-        Spacer(modifier = Modifier.height(4.dp))
+        Spacer(modifier = Modifier.height(5.dp))
         Text(
             text = title,
             color = Color.White,
@@ -259,7 +259,7 @@ fun TaskRow(task: Task, navController: NavController) {
         horizontalAlignment = Alignment.CenterHorizontally,
         modifier = Modifier
             .background(Color(0xFFF6BD8A), RoundedCornerShape(10.dp)).border(3.dp, Color.Black, RoundedCornerShape(10.dp))
-            .padding(5.dp)
+            .padding(3.dp)
             .clickable {
                 navController.navigate("taskDetailScreen/${Gson().toJson(task)}")
             }

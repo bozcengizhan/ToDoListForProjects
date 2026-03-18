@@ -66,7 +66,7 @@ fun failedTaskDetailScreen(navController: NavController, viewModel: TaskViewMode
                 contentDescription = "Logout",
                 tint = Color.White,
                 modifier = Modifier.align(Alignment.CenterHorizontally)
-                    .padding(start =10.dp,end = 10.dp)
+                    .padding(start =30.dp,end = 30.dp)
                     .size(28.dp)
                     .clickable {
                         viewModel.deleteFailedTask(task)
