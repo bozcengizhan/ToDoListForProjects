@@ -217,7 +217,7 @@ fun MainScreen(
 
 
         TextField(
-            modifier = Modifier.padding(horizontal = 30.dp).background(Color(0xFF7AD0EA), shape = RoundedCornerShape(10.dp)).border(3.dp, color = Color.Black, shape = RoundedCornerShape(10.dp)).fillMaxWidth(),
+            modifier = Modifier.padding(horizontal = 40.dp).background(Color(0xFF7AD0EA), shape = RoundedCornerShape(10.dp)).border(3.dp, color = Color.Black, shape = RoundedCornerShape(10.dp)).fillMaxWidth(),
             value = kullaniciMail.value,
             onValueChange = { kullaniciMail.value = it },
             label = { Text("User Email") },
@@ -234,10 +234,10 @@ fun MainScreen(
             ),
         )
 
-        Spacer(modifier = Modifier.padding(30.dp))
+        Spacer(modifier = Modifier.padding(20.dp))
 
         TextField(
-            modifier = Modifier.padding(horizontal = 30.dp).background(Color(0xFF7AD0EA), shape = RoundedCornerShape(10.dp)).border(3.dp, color = Color.Black, shape = RoundedCornerShape(10.dp)).fillMaxWidth(),
+            modifier = Modifier.padding(horizontal = 40.dp).background(Color(0xFF7AD0EA), shape = RoundedCornerShape(10.dp)).border(3.dp, color = Color.Black, shape = RoundedCornerShape(10.dp)).fillMaxWidth(),
             value = kullaniciSifre.value,
             onValueChange = { kullaniciSifre.value = it },
             label = { Text("User Password") },
@@ -257,6 +257,7 @@ fun MainScreen(
 
         Spacer(modifier = Modifier.padding(90.dp))
 
+        // 🔹 Giriş Yap BUTONU
         Button(onClick = {
             onLogin(kullaniciMail.value, kullaniciSifre.value)
         }, colors = ButtonDefaults.buttonColors(Color(0xFF7AD0EA)), modifier = Modifier.border(3.dp, color = Color.Black, shape = RoundedCornerShape(30.dp)).shadow(12.dp, RoundedCornerShape(10.dp)), shape = RoundedCornerShape(30.dp)) {
@@ -270,9 +271,9 @@ fun ModernTopBarMain(title: String) {
     Box(
         modifier = Modifier
             .fillMaxWidth()
-            .height(70.dp)
-            .padding(horizontal = 40.dp, vertical = 8.dp)
-            .shadow(34.dp, RoundedCornerShape(20.dp))  // gölge + yuvarlak köşe
+            .height(90.dp)
+            .padding(horizontal = 60.dp, vertical = 8.dp)
+            .shadow(24.dp, RoundedCornerShape(20.dp))  // gölge + yuvarlak köşe
             .background(
                 brush = Brush.horizontalGradient(
                     colors = listOf(

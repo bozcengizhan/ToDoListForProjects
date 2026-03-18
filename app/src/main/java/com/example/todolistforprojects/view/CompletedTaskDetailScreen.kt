@@ -84,7 +84,7 @@ fun completedTaskDetailScreen(
                 contentDescription = "Logout",
                 tint = Color.White,
                 modifier = Modifier.align(Alignment.CenterHorizontally)
-                    .padding(start =10.dp,end = 20.dp)
+                    .padding(start =10.dp,end = 10.dp)
                     .size(28.dp)
                     .clickable {
                         viewModel.deleteCompletedTask(task)

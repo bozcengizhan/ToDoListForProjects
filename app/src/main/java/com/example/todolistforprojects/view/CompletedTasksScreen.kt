@@ -108,8 +108,8 @@ fun ModernTopBar3(title: String) {
                         Color(0xFF78E8A4)
                     )
                 ),
-                shape = RoundedCornerShape(19.dp)
-            ).border(3.dp, Color.Black, RoundedCornerShape(19.dp)),
+                shape = RoundedCornerShape(20.dp)
+            ).border(3.dp, Color.Black, RoundedCornerShape(20.dp)),
         contentAlignment = Alignment.Center
     ) {
         Text(
@@ -117,7 +117,7 @@ fun ModernTopBar3(title: String) {
             color = Color.White,
             style = MaterialTheme.typography.headlineMedium.copy(
                 fontWeight = FontWeight.Bold,
-                fontSize = MaterialTheme.typography.headlineMedium.fontSize * 1.4f // %20 daha büyük
+                fontSize = MaterialTheme.typography.headlineMedium.fontSize * 1.5f // %20 daha büyük
             )
         )
     }
@@ -130,8 +130,8 @@ fun CompletedTaskItem(task: Task, onClick: () -> Unit) {
     Column(
         modifier = Modifier
             .fillMaxWidth()
-            .background(Color(0xFFA9FAC7), RoundedCornerShape(13.dp))
-            .border(3.dp, Color.Black, RoundedCornerShape(13.dp))
+            .background(Color(0xFFA9FAC7), RoundedCornerShape(12.dp))
+            .border(3.dp, Color.Black, RoundedCornerShape(12.dp))
             .padding(16.dp)
             .clickable { onClick() }
     ) {
@@ -150,7 +150,7 @@ fun CompletedTaskItem(task: Task, onClick: () -> Unit) {
             color = Color.DarkGray
         )
 
-        Spacer(modifier = Modifier.height(7.dp))
+        Spacer(modifier = Modifier.height(6.dp))
 
         Text(
             text = "Added By: ${task.creatorEmail}",

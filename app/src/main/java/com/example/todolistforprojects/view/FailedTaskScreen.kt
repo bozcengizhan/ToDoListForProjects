@@ -67,7 +67,7 @@ fun failedTaskScreen(
         ModernTopBar2(title = "Failed Tasks")
 
 
-        Spacer(modifier = Modifier.height(30.dp))
+        Spacer(modifier = Modifier.height(20.dp))
 
         if(isLoading){
 
