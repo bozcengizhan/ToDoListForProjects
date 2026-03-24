@@ -55,7 +55,7 @@ fun failedTaskDetailScreen(navController: NavController, viewModel: TaskViewMode
         ){
             ModernTopBar7(task.name)
 
-            Spacer(modifier= Modifier.weight(1.3f))
+            Spacer(modifier= Modifier.weight(1.5f))
 
             ModernCardBar3(task.description)
 

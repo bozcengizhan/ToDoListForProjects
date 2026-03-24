@@ -127,7 +127,7 @@ fun taskDetailScreen(
                         viewModel.deleteTask(task)
                         navController.popBackStack()
                     }
-                    .shadow(11.dp, RoundedCornerShape(10.dp))
+                    .shadow(12.dp, RoundedCornerShape(10.dp))
 
             )
 

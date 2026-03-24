@@ -142,7 +142,7 @@ fun CompletedTaskItem(task: Task, onClick: () -> Unit) {
             color = Color.Black
         )
 
-        Spacer(modifier = Modifier.height(4.dp))
+        Spacer(modifier = Modifier.height(6.dp))
 
         Text(
             text = task.description,

@@ -60,7 +60,7 @@ fun failedTaskScreen(
         modifier = Modifier
             .fillMaxSize()
             .background(Color(0xFFF85D5D))
-            .padding(14.dp),
+            .padding(16.dp),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
 

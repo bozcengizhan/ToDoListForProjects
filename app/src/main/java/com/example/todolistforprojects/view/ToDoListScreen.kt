@@ -180,7 +180,7 @@ fun BottomBar(
             horizontalArrangement = Arrangement.SpaceEvenly
         ) {
 
-            Spacer(modifier = Modifier.weight(0.4f))
+            Spacer(modifier = Modifier.weight(0.5f))
 
             BottomBarButton(
                 title = "Completed",
@@ -192,7 +192,7 @@ fun BottomBar(
             Box(
                 modifier = Modifier
                     .height(50.dp)
-                    .width(3.dp)
+                    .width(2.dp)
                     .background(Color.Black.copy(alpha = 0.3f))
             )
 
