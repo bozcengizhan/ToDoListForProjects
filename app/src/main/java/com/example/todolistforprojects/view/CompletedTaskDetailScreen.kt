@@ -73,7 +73,7 @@ fun completedTaskDetailScreen(
         ){
 
             ModernTopBar6(title = task.name)
-            Spacer(modifier= Modifier.weight(1.5f))
+            Spacer(modifier= Modifier.weight(1.4f))
 
             ModernCardBar2(title = task.description)
 

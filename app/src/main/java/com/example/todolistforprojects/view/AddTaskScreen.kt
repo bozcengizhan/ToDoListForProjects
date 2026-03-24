@@ -145,7 +145,7 @@ fun AddTaskScreen(
                 },
                 colors = ButtonDefaults.buttonColors(Color(0xFFB57AD2)),
                 modifier = Modifier.align(Alignment.CenterHorizontally).size(125.dp,50.dp)
-                    .border(3.dp,color = Color.Black, shape = RoundedCornerShape(30.dp))
+                    .border(2.dp,color = Color.Black, shape = RoundedCornerShape(30.dp))
                     .shadow(12.dp, RoundedCornerShape(10.dp))  // gölge + yuvarlak köşe
                 , shape = RoundedCornerShape(30.dp)
             ) {

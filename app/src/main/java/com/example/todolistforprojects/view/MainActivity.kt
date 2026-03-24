@@ -237,7 +237,7 @@ fun MainScreen(
         Spacer(modifier = Modifier.padding(20.dp))
 
         TextField(
-            modifier = Modifier.padding(horizontal = 40.dp).background(Color(0xFF7AD0EA), shape = RoundedCornerShape(10.dp)).border(3.dp, color = Color.Black, shape = RoundedCornerShape(10.dp)).fillMaxWidth(),
+            modifier = Modifier.padding(horizontal = 30.dp).background(Color(0xFF7AD0EA), shape = RoundedCornerShape(10.dp)).border(3.dp, color = Color.Black, shape = RoundedCornerShape(10.dp)).fillMaxWidth(),
             value = kullaniciSifre.value,
             onValueChange = { kullaniciSifre.value = it },
             label = { Text("User Password") },
@@ -246,9 +246,9 @@ fun MainScreen(
                 focusedBorderColor = Color(0xFF006BBD),
                 unfocusedBorderColor = Color.Black,
                 focusedLabelColor = Color(0xFF006BBD),
-                unfocusedLabelColor = Color.White,
+                unfocusedLabelColor = Color.Black,
                 focusedPrefixColor = Color(0xFF006BBD),
-                unfocusedPrefixColor = Color.Black,
+                unfocusedPrefixColor = Color.White,
                 focusedTextColor = Color.White,
                 unfocusedTextColor = Color.White
             ),
