@@ -67,7 +67,7 @@ class TaskRepository {
         val failedRef = db.collection("failedTasks").document(task.id)
         val expireDate = com.google.firebase.Timestamp.now() // şimdi
             .toDate()
-            .apply { time +=  30 * 1000 } // 30sn sonra siliniyor
+            .apply { time += 7L * 24 * 60 * 60 * 1000 } // 30sn sonra siliniyor
 
         val taskMap = hashMapOf(
             "id" to task.id,
