@@ -57,7 +57,7 @@ fun AddTaskScreen(
         Column(
             modifier = Modifier
                 .padding(innerPadding)
-                .padding(15.dp)
+                .padding(16.dp)
                 .fillMaxSize(),
             verticalArrangement = Arrangement.spacedBy(16.dp)
         ) {
