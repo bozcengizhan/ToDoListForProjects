@@ -49,18 +49,6 @@ git clone https://github.com/yourusername/WorkSync.git
 
 ---
 
-## 📂 Project Structure
-
-```
-WorkSync/
-│── ui/            # UI components (Compose)
-│── viewmodel/     # ViewModel layer
-│── model/         # Data models
-│── data/          # Data handling (repository, database, etc.)
-```
-
----
-
 ## 🎯 Future Plans
 
 * 🔔 Notification system
