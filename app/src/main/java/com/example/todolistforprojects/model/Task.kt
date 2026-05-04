@@ -1,3 +1,14 @@
 package com.example.todolistforprojects.model
 
-data class Task(var id: String = "", var name: String = "", var description: String = "", var date: String = "", var time: String = "",var duration: String = "", var status: String = "")
+import com.google.firebase.Timestamp
+
+data class Task(
+    val id: String = "",
+    val name: String = "",
+    val description: String = "",
+    val totalDays: Int = 0,
+    val startDate: Timestamp? = null,
+    val creatorEmail: String = "",
+    val status: String = "active" // active | completed
+)
+
