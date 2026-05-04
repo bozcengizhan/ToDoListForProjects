@@ -22,8 +22,8 @@ fun taskDetailScreen(task: Task){
         Column(modifier = Modifier.fillMaxSize().background(Color.White), verticalArrangement = Arrangement.Center, horizontalAlignment = Alignment.CenterHorizontally){
             Text(task.name)
             Text(task.description)
-            Text(task.date)
-            Text(task.time)
+            Text(task.startDate)
+            Text(task.totalDays)
             Text(task.status)
             Checkbox(checked = true, onCheckedChange = {})
         }
@@ -31,22 +31,4 @@ fun taskDetailScreen(task: Task){
 
 
 
-}
-
-
-
-
-@Preview(showBackground = true)
-@Composable
-fun taskDetailScreenPreview() {
-    ToDoListForProjectsTheme {
-        val taskList = ArrayList<Task>()
-        val task1 = Task("1","İlk işimiz","ilk işimizi yapıyoruz","01.02.2024","12:00","Yapıldı")
-        val task2 = Task("2","İkinci işimiz","İkinci işimizi yapıyoruz","05.02.2023","13:00","Yapıldı")
-        val task3 = Task("3","Üçüncü işimiz","Üçüncü işimizi yapıyoruz","21.06.2021","14:00","Yapılmadı")
-        val task4 = Task("4","Dördüncü işimiz","Dördüncü işimizi yapıyoruz","02.12.2022","15:00","Yapıldı")
-        val task5 = Task("5","Son işimiz","Son işimizi yapıyoruz","11.01.2013","22:00","Yapıldı")
-
-        taskDetailScreen(task = task1)
-    }
 }

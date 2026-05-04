@@ -131,21 +131,12 @@ fun TaskRow(task: Task, navController: NavController) {
             }
             .padding(5.dp)
     ) {
-        // Model alan adlarına göre güncelle (senin modelin taskName vs ise onları kullan)
         Text(task.name)
         Spacer(modifier = Modifier.padding(1.dp))
         Text(task.description)
         Spacer(modifier = Modifier.padding(1.dp))
-        Text(task.date)
+        Text(task.startDate)
         Spacer(modifier = Modifier.padding(1.dp))
-        Text(task.time)
-    }
-}
-
-@Preview(showBackground = true)
-@Composable
-fun toDoListPreview() {
-    ToDoListForProjectsTheme {
-        toDoListScreen(navController = NavController(LocalContext.current), viewModel = TaskViewModel())
+        Text(task.totalDays)
     }
 }
