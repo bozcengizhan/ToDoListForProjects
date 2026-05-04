@@ -123,7 +123,7 @@ class MainActivity : ComponentActivity() {
         auth.signInWithEmailAndPassword(email, password)
             .addOnCompleteListener(this) { task ->
                 if (task.isSuccessful) {
-                    Toast.makeText(this, "Giriş başarılı!", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(this, "Giris başarılı!", Toast.LENGTH_SHORT).show()
                     navController.navigate("toDoListScreen") {
                         popUpTo("mainScreen") { inclusive = true }
                     }

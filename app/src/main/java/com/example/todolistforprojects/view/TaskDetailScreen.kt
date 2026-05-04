@@ -41,7 +41,7 @@ fun taskDetailScreen(task: Task){
 fun taskDetailScreenPreview() {
     ToDoListForProjectsTheme {
         val taskList = ArrayList<Task>()
-        val task1 = Task("1","İlk işimiz","ilk işimizi yapıyoruz","01.02.2024","12:00","Yapıldı")
+        val task1 = Task("1","İlk isimiz","ilk işimizi yapıyoruz","01.02.2024","12:00","Yapıldı")
         val task2 = Task("2","İkinci işimiz","İkinci işimizi yapıyoruz","05.02.2023","13:00","Yapıldı")
         val task3 = Task("3","Üçüncü işimiz","Üçüncü işimizi yapıyoruz","21.06.2021","14:00","Yapılmadı")
         val task4 = Task("4","Dördüncü işimiz","Dördüncü işimizi yapıyoruz","02.12.2022","15:00","Yapıldı")

@@ -129,7 +129,7 @@ fun TaskRow(task: Task, navController: NavController) {
             .clickable {
                 navController.navigate("taskDetailScreen/${Gson().toJson(task)}")
             }
-            .padding(5.dp)
+            .padding(4.dp)
     ) {
         // Model alan adlarına göre güncelle (senin modelin taskName vs ise onları kullan)
         Text(task.name)
